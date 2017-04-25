@@ -1,0 +1,48 @@
+{
+  "name": "xre",
+  "description": "Extended Regular Expressions with group names, positions and hierarchy",
+  "version": "0.0.1",
+  "license": "MIT",
+  "author": {
+    "name": "Harald Gutsche"
+  },
+  "keywords": [
+    "regexp",
+    "extension",
+    "named groups",
+    "group positions",
+    "JavaScript",
+    "ECMAScript"
+  ],
+  "engines": {
+    "node": ">=6"
+  },
+  "dependencies": {
+    "regexp-tree": "0.0.45"
+  },
+  "devDependencies": {
+    "jasmine": "2.5.3"
+  },
+  "optionalDependencies": {},
+  "main": "./xre.js",
+  "readme": "No README",
+  "homepage": "https://github.com/hg42/xre",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hg42/xre.git"
+  },
+  "bugs": {
+    "url": "https://github.com/hg42/xre/issues"
+  },
+  "maintainers": [
+    {
+      "name": "hg42",
+      "email": "frontari+github@gmail.com"
+    }
+  ],
+  "scripts": {
+    "build": "./scripts/build",
+    "prepublish": "npm test",
+    "test": "jasmine"
+  }
+}
