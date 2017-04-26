@@ -1,5 +1,5 @@
 
-require('./polyfill/string-padend');
+require('../polyfill/string-padend');
 
 var text = 'abcdefghijklmnopqrstuvwxyz';
 var re = '/   \n  (?:bcd) ( [xey] .*  # comment with special chars ([*? \n  (g.* (?<I>i) ) \n j (?<K>k) ) l (?:mn)? (opq)  r s t /x  \n   ';
@@ -21,10 +21,10 @@ var result2 = regexp.exec(text);
 console.log(JSON.stringify(result2, null, "  "));
 
 
-XRE = require('./xre');
+RedRegExp = require('..');
 
-var xre = new XRE(re);
-var matches = xre.exec(text);
+var redRE = new RedRegExp(re);
+var matches = redRE.exec(text);
 
 //showo(match);
 

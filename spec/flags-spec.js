@@ -1,15 +1,15 @@
 
-const XRE = require('../xre');
+const RedRegExp = require('../red-regexp');
 
-describe('XRE:', () => {
+describe('RedRegExp:', () => {
   describe('flags', () => {
     it('should ignore comments and whitespace', () => {
-      var xre = new XRE('\n\
+      var redRE = new RedRegExp('\n\
                               x    # some comment\n\
                               y z  # some comment with (.*?[^][) special characters\n\
                               \n\
                           ', 'iixx');
-      expect(xre.re.toString()).toBe('/(xyz)/i');
+      expect(redRE.re.toString()).toBe('/(xyz)/i');
     });
   });
 });

@@ -1,15 +1,9 @@
 
-const XRE = require('../xre');
+const RedRegExp = require('../red-regexp');
 
-describe('XRE:', () => {
-  var matches = new XRE('(?:a)(?:b)(c)(?<X>x)(?<Y>y)(?<Z>z)(?:d)(e)(?:f)').exec('PREabcxyzdefPOST');
+describe('RedRegExp:', () => {
+  var matches = new RedRegExp('(?:a)(?:b)(c)(?<X>x)(?<Y>y)(?<Z>z)(?:d)(e)(?:f)').exec('PREabcxyzdefPOST');
   describe('non-capturing groups (?:...)', () => {
-    it('should provide their value in matches.groups[<capnum>.<subnum>]', () => {
-      expect(matches.groups[0.1]).toBe('a');
-      expect(matches.groups[0.2]).toBe('b');
-      expect(matches.groups[4.1]).toBe('d');
-      expect(matches.groups[5.1]).toBe('f');
-    });
     it('should not be counted', () => {
       expect(matches.groups[1]).toBe('c');
     });
@@ -42,7 +36,7 @@ describe('XRE:', () => {
   });
   describe('additional info:', () => {
     it('names should be collected', () => {
-      expect(matches.names).toEqual([ '0.1', '0.2', '1', 'X', 'Y', 'Z', '4.1', '5', '5.1' ]);
+      expect(matches.names).toEqual([ '1', 'X', 'Y', 'Z', '5' ]);
     });
     it('index should match input', () => {
       for(name of matches.names) {

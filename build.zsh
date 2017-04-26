@@ -3,7 +3,7 @@
 #set
 echo dir=$dir
 
-exec npm test spec/test-spec.js
+#exec npm test spec/test-spec.js
 
 if ${build_file:-false}; then
   file=$(realpath $1)

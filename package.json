@@ -1,5 +1,5 @@
 {
-  "name": "xre",
+  "name": "red-regexp",
   "description": "Extended Regular Expressions with group names, positions and hierarchy",
   "version": "0.0.1",
   "license": "MIT",
@@ -24,15 +24,15 @@
     "jasmine": "2.5.3"
   },
   "optionalDependencies": {},
-  "main": "./xre.js",
+  "main": "./red-regexp.js",
   "readme": "No README",
-  "homepage": "https://github.com/hg42/xre",
+  "homepage": "https://github.com/hg42/red-regexp",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/hg42/xre.git"
+    "url": "git+https://github.com/hg42/red-regexp.git"
   },
   "bugs": {
-    "url": "https://github.com/hg42/xre/issues"
+    "url": "https://github.com/hg42/red-regexp/issues"
   },
   "maintainers": [
     {

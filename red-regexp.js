@@ -1,11 +1,14 @@
 
+var RegExpTree = require('regexp-tree');
+var PREFIX_NON_CAPTURING = '$$';
+
 module.exports =
-XRE = (function() {
+RedRegExp = (function() {
 
   var use_combine_wrapped_groups = 1;
   var use_collect_group = 1;
-
-  var debug = 1;
+  
+  var debug = 0;
 
   var show = function(x) {
     if(debug)
@@ -20,11 +23,9 @@ XRE = (function() {
     show(JSON.stringify(x));
   };
 
-  var RegExpTree = require('regexp-tree');
-
   //---------------------------------------------------------------------------- constructor
 
-  function XRE(re, options) {
+  function RedRegExp(re, options) {
 
     showo(['input expression', re, options]);
 
@@ -101,94 +102,72 @@ XRE = (function() {
     }
 
 
-    // ensure all parts of alternatives (=sequences) are groups
-    //   this allows to determine the start indexes
-    //   by cummulating the lengths of result strings
+    // ensure all parts of alternatives (=sequences) are groups.
+    //   this allows to determine the character positions
+    //   by cummulating the lengths of preceding groups
 
-    if(0) {
+    RegExpTree.traverse(ast, {
 
-      RegExpTree.traverse(ast, {
-
-        '*': function(path) {
-          var parent = path.parentPath;
-          if( path.node.type != 'Group' &&
-              parent && parent.node.type == 'Alternative'
+      'Alternative': function(path) {
+        showo(["Alternative", path.node.expressions.map(function(x) {return [x.type, x.value]})]);
+        var children = [];
+        var collected = [];
+        var nCollected = 0;
+        var nDirect = 0;
+        path.node.expressions.forEach( function(child) {
+          show([child.type, child.value, child.expression ? [child.expression.type, child.expression.value] : null]);
+          if(
+            child.type == 'Char' ||
+            child.type == 'CharClass' ||
+            child.type == 'Repetition' && (child.expression.type == 'Char' || child.expression.type == 'CharClass')
             ) {
-            path.replace({
-              type: 'Group',
-              capturing: false,
-              expression: path.node,
-              wrapped: true
-            });
+            showo(["collect", child.type, child.value]);
+            collected.push(child);
+            nCollected++;
+          } else {
+            children.push(collected);
+            collected = [];
+            children.push(child);
+            nDirect++;
           }
-        }
-      });
+        });
+        children.push(collected);
 
-    } else {
+        if(nCollected && nDirect) {
+          path.node.expressions = [];
 
-      RegExpTree.traverse(ast, {
-
-        'Alternative': function(path) {
-          showo(["Alternative", path.node.expressions.map(function(x) {return [x.type, x.value]})]);
-          var children = [];
-          var collected = [];
-          var any = 0;
-          path.node.expressions.forEach( function(child) {
-            show([child.type, child.value, child.expression ? [child.expression.type, child.expression.value] : null]);
-            if(
-              child.type == 'Char' ||
-              child.type == 'CharClass' ||
-              child.type == 'Repetition' && (child.expression.type == 'Char' || child.expression.type == 'CharClass')
-              ) {
-              showo(["collect", child.type, child.value]);
-              collected.push(child);
+          children.forEach(function(child) {
+            if(Array.isArray(child)) {
+              //showo(["child array", child.map(function(x) {return [x.type, x.value]})]);
+              if(child.length > 0) {
+                var groupPath = path.appendChild({
+                  type: 'Group',
+                  capturing: false,
+                  expression: null,
+                  wrapped: true
+                });
+                if(child.length > 1) {
+                  var altPath = groupPath.setChild({
+                    type: 'Alternative',
+                    expressions: []
+                  });
+                  child.forEach(function(node) {
+                    showo(["append child alt", [node.type, node.value]]);
+                    altPath.appendChild(node);
+                  });
+                } else {
+                  showo(["wrap single", child[0].type, child[0].value]);
+                  groupPath.setChild(child[0]);
+                }
+              }
             } else {
-              any += collected.length;
-              children.push(collected);
-              collected = [];
-              children.push(child);
+              showo(["append child", [child.type, child.value]]);
+              path.appendChild(child);
             }
           });
-          any += collected.length;
-          children.push(collected);
-
-          if(any) {
-            path.node.expressions = [];
-
-            children.forEach(function(child) {
-              if(Array.isArray(child)) {
-                //showo(["child array", child.map(function(x) {return [x.type, x.value]})]);
-                if(child.length > 0) {
-                  var groupPath = path.appendChild({
-                    type: 'Group',
-                    capturing: false,
-                    expression: null,
-                    wrapped: true
-                  });
-                  if(child.length > 1) {
-                    var altPath = groupPath.setChild({
-                      type: 'Alternative',
-                      expressions: []
-                    });
-                    child.forEach(function(node) {
-                      showo(["append child alt", [node.type, node.value]]);
-                      altPath.appendChild(node);
-                    });
-                  } else {
-                    showo(["wrap single", child[0].type, child[0].value]);
-                    groupPath.setChild(child[0]);
-                  }
-                }
-              } else {
-                showo(["append child", [child.type, child.value]]);
-                path.appendChild(child);
-              }
-            });
-          }
         }
-      });
-
-    }
+      }
+    });
 
     var wrapped = RegExpTree.generate(ast);
     show('--------------------- wrapped');
@@ -228,40 +207,25 @@ XRE = (function() {
         }
       });
 
-      if(0) {
-        RegExpTree.traverse(ast, {
-
-          Alternative: function(path) {
-            if( path.node.expressions.length == 1 &&
-                path.node.expressions[0].type == 'Group'
-              ) {
-              path.replace(path.node.expressions[0].expression); // why?
-            }
-          }
-        });
-      }
-
     var combined = RegExpTree.generate(ast);
     show('--------------------- combined');
     showo(combined);
     showt(ast);
     }
 
-    // remove useless Alternative with only one member
 
     RegExpTree.traverse(ast, {
+
+      // remove useless Alternative with only one member
 
       Alternative: function(path) {
         if( path.node.expressions.length == 1
           ) {
           path.replace(path.node.expressions[0]);
         }
-      }
-    });
-
-    // remove useless Group in other Group
-
-    RegExpTree.traverse(ast, {
+      },
+      
+      // remove useless Group nested in other Group
 
       Group: function(path) {
         if( path.node.expression.type == "Group"
@@ -277,8 +241,11 @@ XRE = (function() {
           path.replace(child);
         }
       }
+      
     });
 
+
+    // determine names of all groups (named and numbered)
     // find hierarchy of groups (collect an array of parent group names for each named group)
 
     getParentNames = function(path) {
@@ -311,7 +278,7 @@ XRE = (function() {
             node.name = '' + indexCaptureGroup;
           } else {
             non_capturing = true;
-            node.name = '' + (indexCaptureGroup-1) + '.' + indexNonCaptureGroup;
+            node.name = PREFIX_NON_CAPTURING + (indexCaptureGroup-1) + '.' + indexNonCaptureGroup;
             indexNonCaptureGroup++;
           }
         }
@@ -346,16 +313,17 @@ XRE = (function() {
     //show(parents);
 
     ast.flags = ast.flags.replace("x", "");
-    var xre = RegExpTree.generate(ast);
-    this.re = RegExpTree.toRegExp(xre);
+    var redRE = RegExpTree.generate(ast);
+    this.re = RegExpTree.toRegExp(redRE);
 
     show('--------------------- re');
     show(this.re);
   }
 
+
   //---------------------------------------------------------------------------- exec
 
-  XRE.prototype.exec = function(text) {
+  RedRegExp.prototype.exec = function(text) {
 
     showo(text);
 
@@ -411,8 +379,8 @@ XRE = (function() {
 
     // collect result groups as strings or groups according to original expression
     var position = [];
-    var minpos = text.length;
-    var maxpos = 0;
+    var groupedMin = text.length;
+    var groupedMax = 0;
     var next     = [charIndexAll];
     var lastLevel = 0;
     for (var i = 1; i < this.names.length; i++) {
@@ -428,19 +396,21 @@ XRE = (function() {
       else
         pos = next[level];
       position[level] = pos;
-      if(pos < minpos)
-        minpos = pos;
-      if(pos + len > maxpos)
-        maxpos = pos + len;
-      setGroup(result, name, val, {index: pos});
+      if(name && name.slice(0,2) != PREFIX_NON_CAPTURING) {
+        if(pos < groupedMin)
+          groupedMin = pos;
+        if(pos + len > groupedMax)
+          groupedMax = pos + len;
+        setGroup(result, name, val, {index: pos});
+      }
       next[level] = pos + len;
       show(['   '.repeat(level), name, pos, next[level]]);
       lastLevel = level;
     }
 
     setRootGroup(result, "grouped",
-      text.slice(minpos, maxpos),
-      {index: minpos}
+      text.slice(groupedMin, groupedMax),
+      {index: groupedMin}
     );
 
     showt(result);
@@ -448,6 +418,6 @@ XRE = (function() {
     return result;
   };
 
-  return XRE;
+  return RedRegExp;
 
 })();
