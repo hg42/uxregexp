@@ -18,10 +18,10 @@
     "node": ">=6"
   },
   "dependencies": {
-    "regexp-tree": "0.0.45"
+    "regexp-tree": "0.0.46"
   },
   "devDependencies": {
-    "jasmine": "2.5.3"
+    "jasmine": "^2.6.0"
   },
   "optionalDependencies": {},
   "main": "./red-regexp.js",
