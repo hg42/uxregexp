@@ -1,14 +1,19 @@
-# <span style="color: red">Red</span>RegExp - red-regexp
+# UXRegExp - uxregexp
+
+**u**seful e**x**tended **reg**ular **exp**ressions
 
 ## purpose
 
-A regular expression library with a <span style="color: red">red</span>efined API to make regular expressions more usable.
+A regular expression module with a redefined API to
+*   fix some javascript regexp problems
+*   add some extended features
+*   make regular expressions more usable
 
 ## features
 
-"stable" features in the sense of "API unlikely to change":
+**"stable"** features in the sense of "API unlikely to change":
 *   **named groups**: `(?<name>...)` -> `matches.groups.name` or `matches.groups["name"]`
-*   **numbered groups** are handled like named groups (number used as name): `matches.groups[group_number]`
+*   **numbered groups** are handled like named groups (number used as name): `matches.groups[1]`
 *   **char index for each group** (position in input string): `matches.infos[name].index`
 *   matches.**all** returns match for the whole expression (`matches[0]` in javascript)
 *   matches.**pre**, matches.**post**
@@ -114,8 +119,8 @@ Discussion is welcome:
 *   matches.**grouped** returns the hull of all capturing groups, while matches.all also includes non-captured strings
     => QUESTION: does `grouped` describe what it does?
     ```js
-    RedRegExp = require('../../red-regexp');
-    var matches = new RedRegExp('/a(b)(?:c)(d)(?:e)f/').exec("PREabcdefPOST");
+    UXRegExp = require('../../uxregexp');
+    var matches = new UXRegExp('/a(b)(?:c)(d)(?:e)f/').exec("PREabcdefPOST");
     console.log([matches.all, matches.grouped]); // -> ['abcd', 'bcd']
     ```
 

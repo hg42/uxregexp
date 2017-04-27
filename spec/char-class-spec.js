@@ -1,16 +1,16 @@
 
-const RedRegExp = require('../red-regexp');
+const UXRegExp = require('../uxregexp');
 
-describe('RedRegExp:', () => {
+describe('UXRegExp:', () => {
   describe('char class', () => {
     it('should use "." as simple char', () => {
-      var redRE = new RedRegExp('/[.]+/');
-      var result = redRE.exec('a...b');
+      var uxre = new UXRegExp('/[.]+/');
+      var result = uxre.exec('a...b');
       expect(result.all).toBe('...');
     });
     it('should use "|" as simple char', () => {
-      var redRE = new RedRegExp('/[.|,]+/');
-      var result = redRE.exec('a.|,|.|,b');
+      var uxre = new UXRegExp('/[.|,]+/');
+      var result = uxre.exec('a.|,|.|,b');
       expect(result.all).toBe('.|,|.|,');
     });
   });

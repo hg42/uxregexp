@@ -1,8 +1,8 @@
 
-const RedRegExp = require('../red-regexp');
+const UXRegExp = require('../uxregexp');
 
-describe('RedRegExp:', () => {
-  var matches = new RedRegExp('(?:a)(?:b)(c)(?<X>x)(?<Y>y)(?<Z>z)(?:d)(e)(?:f)').exec('PREabcxyzdefPOST');
+describe('UXRegExp:', () => {
+  var matches = new UXRegExp('(?:a)(?:b)(c)(?<X>x)(?<Y>y)(?<Z>z)(?:d)(e)(?:f)').exec('PREabcxyzdefPOST');
   describe('non-capturing groups (?:...)', () => {
     it('should not be counted', () => {
       expect(matches.groups[1]).toBe('c');

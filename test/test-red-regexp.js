@@ -21,10 +21,10 @@ var result2 = regexp.exec(text);
 console.log(JSON.stringify(result2, null, "  "));
 
 
-RedRegExp = require('..');
+UXRegExp = require('..');
 
-var redRE = new RedRegExp(re);
-var matches = redRE.exec(text);
+var uxre = new UXRegExp(re);
+var matches = uxre.exec(text);
 
 //showo(match);
 

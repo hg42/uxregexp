@@ -1,5 +1,5 @@
 {
-  "name": "red-regexp",
+  "name": "uxregexp",
   "description": "Extended Regular Expressions with group names, positions and hierarchy",
   "version": "0.0.1",
   "license": "MIT",
@@ -24,15 +24,15 @@
     "jasmine": "^2.6.0"
   },
   "optionalDependencies": {},
-  "main": "./red-regexp.js",
-  "readme": "No README",
-  "homepage": "https://github.com/hg42/red-regexp",
+  "main": "./uxregexp.js",
+  "readme": "README.md",
+  "homepage": "https://github.com/hg42/uxregexp",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/hg42/red-regexp.git"
+    "url": "git+https://github.com/hg42/uxregexp.git"
   },
   "bugs": {
-    "url": "https://github.com/hg42/red-regexp/issues"
+    "url": "https://github.com/hg42/uxregexp/issues"
   },
   "maintainers": [
     {

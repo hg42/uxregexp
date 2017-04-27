@@ -3,11 +3,11 @@ var RegExpTree = require('regexp-tree');
 var PREFIX_NON_CAPTURING = '$$';
 
 module.exports =
-RedRegExp = (function() {
+UXRegExp = (function() {
 
   var use_combine_wrapped_groups = 1;
   var use_collect_group = 1;
-  
+
   var debug = 0;
 
   var show = function(x) {
@@ -25,7 +25,7 @@ RedRegExp = (function() {
 
   //---------------------------------------------------------------------------- constructor
 
-  function RedRegExp(re, options) {
+  function UXRegExp(re, options) {
 
     showo(['input expression', re, options]);
 
@@ -224,7 +224,7 @@ RedRegExp = (function() {
           path.replace(path.node.expressions[0]);
         }
       },
-      
+
       // remove useless Group nested in other Group
 
       Group: function(path) {
@@ -241,7 +241,7 @@ RedRegExp = (function() {
           path.replace(child);
         }
       }
-      
+
     });
 
 
@@ -313,8 +313,8 @@ RedRegExp = (function() {
     //show(parents);
 
     ast.flags = ast.flags.replace("x", "");
-    var redRE = RegExpTree.generate(ast);
-    this.re = RegExpTree.toRegExp(redRE);
+    var uxre = RegExpTree.generate(ast);
+    this.re = RegExpTree.toRegExp(uxre);
 
     show('--------------------- re');
     show(this.re);
@@ -323,7 +323,7 @@ RedRegExp = (function() {
 
   //---------------------------------------------------------------------------- exec
 
-  RedRegExp.prototype.exec = function(text) {
+  UXRegExp.prototype.exec = function(text) {
 
     showo(text);
 
@@ -418,6 +418,6 @@ RedRegExp = (function() {
     return result;
   };
 
-  return RedRegExp;
+  return UXRegExp;
 
 })();

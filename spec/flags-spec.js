@@ -1,15 +1,15 @@
 
-const RedRegExp = require('../red-regexp');
+const UXRegExp = require('../uxregexp');
 
-describe('RedRegExp:', () => {
+describe('UXRegExp:', () => {
   describe('flags', () => {
     it('should ignore comments and whitespace', () => {
-      var redRE = new RedRegExp('\n\
+      var uxre = new UXRegExp('\n\
                               x    # some comment\n\
                               y z  # some comment with (.*?[^][) special characters\n\
                               \n\
                           ', 'iixx');
-      expect(redRE.re.toString()).toBe('/(xyz)/i');
+      expect(uxre.re.toString()).toBe('/(xyz)/i');
     });
   });
 });

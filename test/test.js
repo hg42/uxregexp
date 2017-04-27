@@ -29,7 +29,7 @@ if(1) {
 }
 
 if(1) {
-  RedRegExp = require('../../red-regexp');
-  var matches = new RedRegExp('/a(b)(?:c)(d)(?:e)f/').exec("PREabcdefPOST");
+  UXRegExp = require('../../uxregexp');
+  var matches = new UXRegExp('/a(b)(?:c)(d)(?:e)f/').exec("PREabcdefPOST");
   console.log([matches.all, matches.grouped]); // -> ['abcd', 'bcd']
 }
