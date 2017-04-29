@@ -5,14 +5,12 @@ var PREFIX_NON_CAPTURING = '$$';
 module.exports =
 UXRegExp = (function() {
 
-  var use_combine_wrapped_groups = 1;
-  var use_collect_group = 1;
+  var use_collect_groups_with_same_name = 1;
 
   var debug = 0;
 
   var show = function(x) {
-    if(debug)
-      console.log(x);
+    console.log(x);
   };
 
   var showt = function(x) {
@@ -27,9 +25,9 @@ UXRegExp = (function() {
 
   function UXRegExp(re, options) {
 
-    showo(['input expression', re, options]);
+    if(debug >= 1) showo(['input expression', re, options]);
 
-    var flags = "";
+    var flags = '';
     if(typeof options === 'string') {
       flags += options;
     } else if(typeof options === 'object') {
@@ -44,7 +42,7 @@ UXRegExp = (function() {
     // extract flags, set options and remove those not known by javascript
 
     if(typeof re === 'string') {
-      var matches = /^\s*\/([\s\S]*)\/(\w*)\s*$/.exec(re);
+      var matches = /^\s*\/([\s\S]*)\/([a-z]*)\s*$/.exec(re);
       if (matches) {
         re = matches[1];
         flags = matches[2];
@@ -54,14 +52,14 @@ UXRegExp = (function() {
       re = re.replace('\\\\/', '\\/');
 
       // santize flags (sort, uniq)
-      flags = flags.split("")
+      flags = flags.split('')
                    .sort()
                    .filter(
                      function(e,i,a) {
                        return !i || e != a[i-1];
                      }
                    )
-                   .join("");
+                   .join('');
 
       re = '/' + re + '/' + flags;
     }
@@ -73,95 +71,143 @@ UXRegExp = (function() {
 
     var ast = RegExpTree.parser.parse(re, flags);
 
-    //showt(ast);
+    //if(debug >= 3) showt(ast);
 
 
     // check if any named or capturing groups exist...
-
-    var anyNamedOrCapturingGroup = 0;
-    RegExpTree.traverse(ast, {
-
-      Group: function(arg) {
-        var node = arg.node;
-        if (node.name || node.capturing) {
-          return anyNamedOrCapturingGroup++;
-        }
-      }
-    });
-
-
-    // ...otherwise wrap whole expression in a group
-
-    if (!anyNamedOrCapturingGroup) {
-      // wrap whole expression in capturing group
-      ast.body = {
-        type: 'Group',
-        capturing: true,
-        expression: ast.body
-      };
-    }
+    //
+    // var anyNamedOrCapturingGroup = 0;
+    // RegExpTree.traverse(ast, {
+    //
+    //   Group: function(path) {
+    //     var node = path.node;
+    //     //if (node.name || node.capturing) {
+    //     if (node.capturing) {
+    //       return anyNamedOrCapturingGroup++;
+    //     }
+    //   }
+    // });
+    // //showo(['anyNamedOrCapturingGroup', anyNamedOrCapturingGroup]);
+    //
+    //
+    // // ...otherwise wrap whole expression in a group
+    //
+    // if (!anyNamedOrCapturingGroup) {
+    //   ast.body = {
+    //     type: 'Group',
+    //     capturing: false,
+    //     expression: ast.body
+    //   };
+    // }
 
 
     // ensure all parts of alternatives (=sequences) are groups.
     //   this allows to determine the character positions
     //   by cummulating the lengths of preceding groups
 
+    // these must be wrapped
+    var toBeWrapped = function(node) {
+      var result = ! (node.type === 'Group');
+      //showo(['toBeWrapped', result, node.type, node.expression ? node.expression.type : node.value]);
+      return result;
+    }
+
+    // these can be combined when wrapped
+    var toBeCombined = function(node) {
+      var result = toBeWrapped(node)
+                      && ! (
+                        node.type === 'Repetition'
+                          && node.expression.type === 'Group'
+                          && node.expression.capturing
+                      );
+      //showo(['toBeCombined', result, node.type, node.expression ? node.expression.type : node.value]);
+      // return  node.type == 'Char' ||
+      //         node.type == 'CharacterClass' ||
+      //        (node.type == 'Repetition' && toBeCombined(node.expression))
+      //        ;
+      return result;
+    }
+    //var toBeCombined = toBeWrapped;
+    //var toBeCombined = function(node) { return false; };
+
+    var unwrapped = RegExpTree.generate(ast);
+    if(debug >= 2) show('--------------------- unwrapped');
+    if(debug >= 2) show(unwrapped);
+
     RegExpTree.traverse(ast, {
 
       'Alternative': function(path) {
-        showo(["Alternative", path.node.expressions.map(function(x) {return [x.type, x.value]})]);
+
+        // ignore if this was created by collecting wrapped nodes
+        if(path.node.combined)
+          return;
+
+        //showo(['Alternative', path.node.expressions.map(function(x) {return [x.type, x.value]})]);
         var children = [];
         var collected = [];
         var nCollected = 0;
         var nDirect = 0;
         path.node.expressions.forEach( function(child) {
-          show([child.type, child.value, child.expression ? [child.expression.type, child.expression.value] : null]);
-          if(
-            child.type == 'Char' ||
-            child.type == 'CharClass' ||
-            child.type == 'Repetition' && (child.expression.type == 'Char' || child.expression.type == 'CharClass')
-            ) {
-            showo(["collect", child.type, child.value]);
-            collected.push(child);
+          //show([child.type, child.value, child.expression ? [child.expression.type, child.expression.value] : null]);
+          if(toBeCombined(child)) {
+            //showo(['collect', child.type, child.value]);
+            collected.push(child);  // collect
+            nCollected++;
+          } else if(toBeWrapped(child)) {
+            //showo(['wrap   ', child.type, child.value]);
+            if(collected.length) children.push(collected);
+            collected = [];
+            children.push([child]); // single array item -> wrap!
             nCollected++;
           } else {
-            children.push(collected);
+            //showo(['copy   ', child.type, child.value]);
+            if(collected.length) children.push(collected);
             collected = [];
-            children.push(child);
+            children.push(child);   // no wrap
             nDirect++;
           }
         });
-        children.push(collected);
+        // TODO: wrapping not really necessary after the last capturing group
+        // to push all remaining objects without wrapping
+        //Array.prototype.push.apply(children, collected);
+        if(collected.length) children.push(collected);
 
-        if(nCollected && nDirect) {
+        //showo([nCollected, nDirect]);
+        if(1 || nCollected && nDirect) { // TODO: optimize groups in groups
+
+          // clear all expressions
           path.node.expressions = [];
 
           children.forEach(function(child) {
             if(Array.isArray(child)) {
-              //showo(["child array", child.map(function(x) {return [x.type, x.value]})]);
-              if(child.length > 0) {
-                var groupPath = path.appendChild({
-                  type: 'Group',
-                  capturing: false,
-                  expression: null,
-                  wrapped: true
+              // collected nodes have to be wrapped in group
+              //showo(['child array', child.map(function(x) {return [x.type, x.value]})]);
+              // add Group
+              var groupPath = path.appendChild({
+                type: 'Group',
+                capturing: false,
+                expression: null,
+                wrapped: true
+              });
+              if(child.length > 1) {
+                // add array of collected nodes to group
+                var altPath = groupPath.setChild({
+                  type: 'Alternative',
+                  expressions: [],
+                  combined: true
                 });
-                if(child.length > 1) {
-                  var altPath = groupPath.setChild({
-                    type: 'Alternative',
-                    expressions: []
-                  });
-                  child.forEach(function(node) {
-                    showo(["append child alt", [node.type, node.value]]);
-                    altPath.appendChild(node);
-                  });
-                } else {
-                  showo(["wrap single", child[0].type, child[0].value]);
-                  groupPath.setChild(child[0]);
-                }
+                child.forEach(function(node) {
+                  //showo(['append child alt', [node.type, node.value]]);
+                  altPath.appendChild(node);
+                });
+              } else {
+                // add single collected node to group
+                //showo(['wrap single', child[0].type, child[0].value]);
+                groupPath.setChild(child[0]);
               }
             } else {
-              showo(["append child", [child.type, child.value]]);
+              // add the node without wrapping
+              //showo(['append child', [child.type, child.value]]);
               path.appendChild(child);
             }
           });
@@ -170,66 +216,29 @@ UXRegExp = (function() {
     });
 
     var wrapped = RegExpTree.generate(ast);
-    show('--------------------- wrapped');
-    show(wrapped);
+    if(debug >= 1) show('--------------------- wrapped');
+    if(debug >= 1) show(wrapped);
 
-
-    // combine adjcent wrapped groups
-
-    if(use_combine_wrapped_groups) {
-
-      RegExpTree.traverse(ast, {
-
-        Group: function(path) {
-          if(!path.node.wrapped)
-            return;
-          if(!path.node.type != "Char")
-            return;
-          while(true) {
-            var next = path.getNextSibling();
-            if( next &&
-                next.node.type == 'Group' &&
-                next.node.wrapped &&
-                next.node.expression.type == 'Char'
-              ) {
-              if(path.node.expression.type != 'Alternative') {
-                path.node.expression = {
-                  type: 'Alternative',
-                  expressions: [ path.node.expression ]
-                };
-              }
-              path.node.expression.expressions.push(next.node.expression);
-              next.remove();
-            } else {
-              break;
-            }
-          }
-        }
-      });
-
-    var combined = RegExpTree.generate(ast);
-    show('--------------------- combined');
-    showo(combined);
-    showt(ast);
-    }
 
 
     RegExpTree.traverse(ast, {
 
       // remove useless Alternative with only one member
+      //
+      // Alternative: function(path) {
+      //   if( path.node.expressions.length == 1
+      //     ) {
+      //     showo(["******************** remove Alternative with only one child", path.node]);
+      //     path.replace(path.node.expressions[0]);
+      //   }
+      // },
 
-      Alternative: function(path) {
-        if( path.node.expressions.length == 1
-          ) {
-          path.replace(path.node.expressions[0]);
-        }
-      },
-
-      // remove useless Group nested in other Group
+      // merge Group in Group
 
       Group: function(path) {
-        if( path.node.expression.type == "Group"
+        if( path.node.expression.type === 'Group'
           ) {
+          showo(["******************** merge nested Group", path.node, path.node.expression]);
           var node = path.node;
           var child = node.expression;
           if(child.name && node.name && child.name != node.name)
@@ -309,15 +318,15 @@ UXRegExp = (function() {
 
     this.names = names;
     this.parents = parents;
-    //show(names);
-    //show(parents);
+    //if(debug >= 3) show(names);
+    //if(debug >= 3) show(parents);
 
-    ast.flags = ast.flags.replace("x", "");
+    ast.flags = ast.flags.replace('x', '');
     var uxre = RegExpTree.generate(ast);
     this.re = RegExpTree.toRegExp(uxre);
 
-    show('--------------------- re');
-    show(this.re);
+    if(debug >= 1) show('--------------------- re');
+    if(debug >= 1) show(this.re);
   }
 
 
@@ -325,11 +334,11 @@ UXRegExp = (function() {
 
   UXRegExp.prototype.exec = function(text) {
 
-    showo(text);
+    if(debug >= 1) showo(text);
 
     var matches = this.re.exec(text);
 
-    showo(matches);
+    if(debug >= 1) showo(matches);
 
     var result = null;
     if (!matches)
@@ -344,7 +353,7 @@ UXRegExp = (function() {
 
     var setGroup = function(result, name, val, info) {
       if(val != null) {
-        if( use_collect_group && result.groups[name] != null ) {
+        if( use_collect_groups_with_same_name && result.groups[name] != null ) {
           if(Array.isArray(result.groups[name])) {
             result.groups[name].push(val);
             result.infos[name].push(info);
@@ -362,20 +371,20 @@ UXRegExp = (function() {
 
     var charIndexAll = matches.index;
 
-    setRootGroup(result, "all",
+    setRootGroup(result, 'all',
       matches[0],
       {index: charIndexAll}
     );
-    setRootGroup(result, "pre",
+    setRootGroup(result, 'pre',
       matches.input.substring(0, charIndexAll),
       {index: 0}
     );
-    setRootGroup(result, "post",
+    setRootGroup(result, 'post',
       matches.input.substring(charIndexAll + matches[0].length),
       {index: charIndexAll + matches[0].length}
     );
 
-    showo(result);
+    if(debug >= 3) showo(result);
 
     // collect result groups as strings or groups according to original expression
     var position = [];
@@ -404,16 +413,16 @@ UXRegExp = (function() {
         setGroup(result, name, val, {index: pos});
       }
       next[level] = pos + len;
-      show(['   '.repeat(level), name, pos, next[level]]);
+      if(debug >= 2) show(['   '.repeat(level), name, pos, next[level]]);
       lastLevel = level;
     }
 
-    setRootGroup(result, "grouped",
+    setRootGroup(result, 'grouped',
       text.slice(groupedMin, groupedMax),
       {index: groupedMin}
     );
 
-    showt(result);
+    if(debug >= 1) showt(result);
 
     return result;
   };

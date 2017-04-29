@@ -12,7 +12,7 @@ A regular expression module with a redefined API to
 ## features
 
 **"stable"** features in the sense of "API unlikely to change":
-*   **named groups**: `(?<name>...)` -> `matches.groups.name` or `matches.groups["name"]`
+*   **named groups**: `(?<name>...)` -> `matches.groups.name` or `matches.groups['name']`
 *   **numbered groups** are handled like named groups (number used as name): `matches.groups[1]`
 *   **char index for each group** (position in input string): `matches.infos[name].index`
 *   matches.**all** returns match for the whole expression (`matches[0]` in javascript)
@@ -29,11 +29,11 @@ Instead it tries to create a more useful API.
 
 It's currently only used for a single use-case (a contribution to an Atom add-on `process-palette`),
 so
-*   it only includes what is used there or what seemed to be useful in this state
-*   it will probably go through several development steps
+*   it will probably go through some more development steps
 *   the API may change
-*   I am open for suggestions fitting my goals
+*   I am open for suggestions
 *   it is not tested in the wild
+*   I still expect to find bugs
 *   it is not mature for production use (= use it at your own risk)
 
 ## basic algorithm
@@ -54,7 +54,7 @@ which makes them nearly unusable in some use-cases.
 
 Example:
 ```js
-var matches = /a(b)(c)d/.exec("abcd");
+var matches = /a(b)(c)d/.exec('abcd');
 console.log(matches);  #  -> [ 'abcd', 'b', 'c', index: 0, input: 'abcd' ]
 ```
 
@@ -79,10 +79,11 @@ There are several use-cases where we want to split a string into pieces and we n
 
 As a workaround some people suggest to search the group result string in the whole match. E.g.
 ```js
-var matches = /a(b)(c)d/.exec("abcd");
+var matches = /a(b)(c)d/.exec('abcd');
 var index_b = matches.index + matches[0].indexOf(matches[1]);
 var index_c = matches.index + matches[0].indexOf(matches[2]);
-console.log([index_b, index_c]); // -> [1, 2]
+console.log([index_b, index_c]);
+// -> [1, 2]
 ```
 This is the correct result for this case, but the strategy is wrong in the general case, because the group string can exist multiple times and you would always find the first.
 
@@ -90,20 +91,23 @@ E.g. if `/a(b)(b)c/` would be applied to `'abbc'`,
 you would find the first `b` for both groups (`index = 1` for both),
 which is wrong:
 ```js
-var matches = /a(b)(b)c/.exec("abbc");
+var matches = /a(b)(b)c/.exec('abbc');
 var index_b1 = matches.index + matches[0].indexOf(matches[1]);
 var index_b2 = matches.index + matches[0].indexOf(matches[2]);
-console.log([index_b1, index_b2]); // -> [1, 1]
+console.log([index_b1, index_b2]);
+// -> [1, 1]
 ```
 
 
 You can solve this by ensuring all subexpressions in front of groups are wrapped in groups and cumulating the lengths of all these preceding strings:
 ```js
-var matches = /(a)(b)(b)c/.exec("abbc");
+var matches = /(a)(b)(b)c/.exec('abbc');
 var index_b1 = matches.index + matches[1].length;
-               // start of match + length of 'a'
-var index_b2 = matches.index + matches[1].length + matches[2].length;
-               // start of match + length of 'a' and length of first 'b'
+                // start of match + length of 'a'
+var index_b2 = matches.index + matches[1].length
+                             + matches[2].length;
+                // start of match + length of 'a'
+                //                + length of first 'b'
 console.log([index_b1, index_b2]); // -> [1, 2]
 ```
 This works, but for complex expressions it's complicated and a lot of work.
@@ -120,8 +124,10 @@ Discussion is welcome:
     => QUESTION: does `grouped` describe what it does?
     ```js
     UXRegExp = require('../../uxregexp');
-    var matches = new UXRegExp('/a(b)(?:c)(d)(?:e)f/').exec("PREabcdefPOST");
-    console.log([matches.all, matches.grouped]); // -> ['abcd', 'bcd']
+    var matches = new UXRegExp('/a(b)(?:c)(d)(?:e)f/')
+                         .exec('PREabcdefPOST');
+    console.log([matches.all, matches.grouped]);
+    // -> ['abcd', 'bcd']
     ```
 
 ## todo
