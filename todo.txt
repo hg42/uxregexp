@@ -1,1 +1,3 @@
 TODO: add list of names and list of numbers (or use real numbers for numbered groups)
+TODO: wrapping not really necessary after the last capturing group
+TODO: badges

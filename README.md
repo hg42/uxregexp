@@ -2,10 +2,14 @@
 
 **u**seful e**x**tended **reg**ular **exp**ressions
 
+[![npm](https://img.shields.io/npm/v/uxregexp.svg)]() [![npm](https://img.shields.io/npm/dt/uxregexp.svg)]() [![npm](https://img.shields.io/npm/dm/uxregexp.svg)]()
+[![dependencies](https://david-dm.org/hg42/uxregexp/status.svg)](https://david-dm.org/hg42/uxregexp) [![devDependency Status](https://david-dm.org/hg42/uxregexp/dev-status.svg)](https://david-dm.org/hg42/uxregexp#info=devDependencies)
+
+
 ## purpose
 
 A regular expression module with a redefined API to
-*   fix some javascript regexp problems
+
 *   add some extended features
 *   make regular expressions more usable
 
@@ -55,7 +59,8 @@ which makes them nearly unusable in some use-cases.
 Example:
 ```js
 var matches = /a(b)(c)d/.exec('abcd');
-console.log(matches);  #  -> [ 'abcd', 'b', 'c', index: 0, input: 'abcd' ]
+console.log(matches);
+// -> [ 'abcd', 'b', 'c', index: 0, input: 'abcd' ]
 ```
 
 Javascript RegExp API returns
@@ -108,7 +113,8 @@ var index_b2 = matches.index + matches[1].length
                              + matches[2].length;
                 // start of match + length of 'a'
                 //                + length of first 'b'
-console.log([index_b1, index_b2]); // -> [1, 2]
+console.log([index_b1, index_b2]);
+// -> [1, 2]
 ```
 This works, but for complex expressions it's complicated and a lot of work.
 In my use-case, a user creates the regular expression himself, so I definitely don't want to bother him with this increased complexity.
@@ -123,7 +129,7 @@ Discussion is welcome:
 *   matches.**grouped** returns the hull of all capturing groups, while matches.all also includes non-captured strings
     => QUESTION: does `grouped` describe what it does?
     ```js
-    UXRegExp = require('../../uxregexp');
+    UXRegExp = require('uxregexp');
     var matches = new UXRegExp('/a(b)(?:c)(d)(?:e)f/')
                          .exec('PREabcdefPOST');
     console.log([matches.all, matches.grouped]);
