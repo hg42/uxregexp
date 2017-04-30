@@ -2,7 +2,7 @@
 
 **u**seful e**x**tended **reg**ular **exp**ressions
 
-[![npm](https://img.shields.io/npm/v/uxregexp.svg)]() [![npm](https://img.shields.io/npm/dt/uxregexp.svg)]() [![npm](https://img.shields.io/npm/dm/uxregexp.svg)]()
+[![npm](https://img.shields.io/npm/v/uxregexp.svg)]() [![npm@next](https://img.shields.io/npm/v/uxregexp/next.svg)]() [![npm](https://img.shields.io/npm/dt/uxregexp.svg)]() [![npm](https://img.shields.io/npm/dm/uxregexp.svg)]()
 [![dependencies](https://david-dm.org/hg42/uxregexp/status.svg)](https://david-dm.org/hg42/uxregexp) [![devDependency Status](https://david-dm.org/hg42/uxregexp/dev-status.svg)](https://david-dm.org/hg42/uxregexp#info=devDependencies)
 
 
