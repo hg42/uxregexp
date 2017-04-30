@@ -28,11 +28,15 @@ UXRegExp = (function() {
     if(debug >= 1) showo(['input expression', re, options]);
 
     var flags = '';
+    var rtOptions = {};
+
     if(typeof options === 'string') {
       flags += options;
     } else if(typeof options === 'object') {
-      if(options.flags)
+      if(options.flags) {
         flags += options.flags;
+        delete options.flags;
+      }
     }
 
     if (re.includes('\n')) {
@@ -69,7 +73,7 @@ UXRegExp = (function() {
 
     // build AST from re
 
-    var ast = RegExpTree.parser.parse(re, flags);
+    var ast = RegExpTree.parser.parse(re, rtOptions);
 
     //if(debug >= 3) showt(ast);
 
@@ -121,10 +125,6 @@ UXRegExp = (function() {
                           && node.expression.capturing
                       );
       //showo(['toBeCombined', result, node.type, node.expression ? node.expression.type : node.value]);
-      // return  node.type == 'Char' ||
-      //         node.type == 'CharacterClass' ||
-      //        (node.type == 'Repetition' && toBeCombined(node.expression))
-      //        ;
       return result;
     }
     //var toBeCombined = toBeWrapped;
