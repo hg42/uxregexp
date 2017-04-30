@@ -1,7 +1,7 @@
 {
   "name": "uxregexp",
   "description": "Extended Regular Expressions with group names, positions and hierarchy",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "license": "MIT",
   "author": {
     "name": "Harald Gutsche"
@@ -18,7 +18,7 @@
     "node": ">=6"
   },
   "dependencies": {
-    "regexp-tree": "0.0.46"
+    "regexp-tree": "^0.0.47"
   },
   "devDependencies": {
     "jasmine": "^2.6.0"
