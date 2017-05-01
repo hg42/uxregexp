@@ -15,5 +15,6 @@ if ${build_file:-false}; then
   exit
 fi
 
-npm test
+npm run cover
+#npm test
 #js test.js
