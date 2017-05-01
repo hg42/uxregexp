@@ -1,5 +1,0 @@
-#!/bin/zsh
-
-git push && git push --tags
-
-# && rm -rf build/temp

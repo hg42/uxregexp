@@ -41,11 +41,11 @@
     }
   ],
   "scripts": {
-    "build": "./scripts/build",
-    "prepublish": "./scripts/prepublish",
-    "preversion": "./scripts/preversion",
-    "version": "./scripts/version",
-    "postversion": "./scripts/postversion",
-    "test": "jasmine"
+    "test": "jasmine",
+    "build": "",
+    "preversion": "npm test",
+    "version": "",
+    "postversion": "git push && git push --tags",
+    "prepublish": "npm test"
   }
 }
