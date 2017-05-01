@@ -2,10 +2,12 @@
 
 **u**seful e**x**tended **reg**ular **exp**ressions
 
-[![npm](https://img.shields.io/npm/v/uxregexp.svg)]() [![build](https://travis-ci.org/hg42/uxregexp.svg?branch=master)]()
-[![npm@next](https://img.shields.io/npm/v/uxregexp/next.svg)]() [![build](https://travis-ci.org/hg42/uxregexp.svg?branch=next)]()
-[![dependencies](https://david-dm.org/hg42/uxregexp/status.svg)](https://david-dm.org/hg42/uxregexp) [![devDependency Status](https://david-dm.org/hg42/uxregexp/dev-status.svg)](https://david-dm.org/hg42/uxregexp#info=devDependencies)
-[![npm](https://img.shields.io/npm/dt/uxregexp.svg)]() [![npm](https://img.shields.io/npm/dm/uxregexp.svg)]()
+*   [![npm-version](https://img.shields.io/npm/v/uxregexp.svg)]() [![build](https://travis-ci.org/hg42/uxregexp.svg?branch=master)]()
+*   [![npm-version@next](https://img.shields.io/npm/v/uxregexp/next.svg)]() [![build](https://travis-ci.org/hg42/uxregexp.svg?branch=next)]()
+*   [![issues](https://img.shields.io/github/issues/hg42/uxregexp.svg)]() [![pull-requests](https://img.shields.io/github/issues-pr/hg42/uxregexp.svg)]()
+*   [![dependencies](https://david-dm.org/hg42/uxregexp/status.svg)](https://david-dm.org/hg42/uxregexp) [![devDependency Status](https://david-dm.org/hg42/uxregexp/dev-status.svg)](https://david-dm.org/hg42/uxregexp#info=devDependencies)
+*   [![npm-downloads](https://img.shields.io/npm/dt/uxregexp.svg)]() [![npm](https://img.shields.io/npm/dm/uxregexp.svg)]() [![npm](https://img.shields.io/npm/dw/uxregexp.svg)]()
+*   [![license](https://img.shields.io/npm/l/uxregexp.svg)]()
 
 ## purpose
 
@@ -49,8 +51,9 @@ var matches = new UXRegExp('/a(b)(?:c)(d)(?<E>e)f/')
 console.log(matches);
 // ->
 { input: 'PREabcdefPOST',
+  //      0123456789012
   groups: { '1': 'b', '2': 'd', E: 'e' },
-  names: [ '1', '2', 'E' ],
+  names: [ 1, 2, 'E' ],
   infos:
    { '1': { index: 4 },
      '2': { index: 6 },
@@ -64,7 +67,6 @@ console.log(matches);
   post: 'POST',
   grouped: 'bcde' }
 ```
-(note: the `names` member may change to have real numbers instead of number strings for numbered groups, however the keys in `groups` and `infos` are still restricted to strings)
 
 ## distribution
 

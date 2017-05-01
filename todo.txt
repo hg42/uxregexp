@@ -2,12 +2,11 @@ general:
   TODO: babel, ES6
 
 API:
-  TODO: add list of names and list of numbers (or use real numbers for numbered groups)
-  TODO: add more methods (match/search/test/map/replace/...?)
-  TODO: some way to access the structure of the groups in the result (nesting, iteration)
+  TODO: find a way to represent the nesting of groups in the result
+  TODO: add more methods (match/search/test/map/replace/traverse...?)
 
 algorithm:
-  TODO: wrapping not really necessary after the last capturing group
+  TODO: wrapping not necessary after the last capturing group (any advantages?)
 
 tests:
   TODO: add tests for multiline etc. (current use-case is single line only)

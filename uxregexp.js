@@ -284,10 +284,10 @@ UXRegExp = (function() {
         var non_capturing = false;
         if (!node.name) {
           if(node.capturing) {
-            node.name = '' + indexCaptureGroup;
+            node.name = indexCaptureGroup;
           } else {
             non_capturing = true;
-            node.name = PREFIX_NON_CAPTURING + (indexCaptureGroup-1) + '.' + indexNonCaptureGroup;
+            node.name = - (10000*(indexCaptureGroup-1) + indexNonCaptureGroup);
             indexNonCaptureGroup++;
           }
         }
@@ -295,7 +295,7 @@ UXRegExp = (function() {
           names.push(node.name);
           if( ! non_capturing ) {
             indexCaptureGroup++;
-            indexNonCaptureGroup = 1;
+            //indexNonCaptureGroup = 1;
           }
           parents[node.name] = getParentNames(path);
           //show([node.name, parents[node.name]]);
@@ -322,8 +322,10 @@ UXRegExp = (function() {
     //if(debug >= 3) show(parents);
 
     ast.flags = ast.flags.replace('x', '');
-    var uxre = RegExpTree.generate(ast);
-    this.re = RegExpTree.toRegExp(uxre);
+    var xre = RegExpTree.generate(ast);
+    this.re = RegExpTree.toRegExp(xre);
+
+    //showt(this);
 
     if(debug >= 1) show('--------------------- re');
     if(debug >= 1) show(this.re);
@@ -405,7 +407,7 @@ UXRegExp = (function() {
       else
         pos = next[level];
       position[level] = pos;
-      if(name && name.slice(0,2) != PREFIX_NON_CAPTURING) {
+      if(name && ! (typeof name === "number" && name < 0)) {
         if(pos < groupedMin)
           groupedMin = pos;
         if(pos + len > groupedMax)

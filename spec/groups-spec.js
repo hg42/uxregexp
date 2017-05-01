@@ -36,7 +36,7 @@ describe('UXRegExp:', () => {
   });
   describe('additional info:', () => {
     it('names should be collected', () => {
-      expect(matches.names).toEqual([ '1', 'X', 'Y', 'Z', '5' ]);
+      expect(matches.names).toEqual([ 1, 'X', 'Y', 'Z', 5 ]);
     });
     it('index should match input', () => {
       for(name of matches.names) {
