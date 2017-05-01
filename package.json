@@ -42,7 +42,10 @@
   ],
   "scripts": {
     "build": "./scripts/build",
-    "prepublish": "npm test",
+    "prepublish": "./scripts/prepublish",
+    "preversion": "./scripts/preversion",
+    "version": "./scripts/version",
+    "postversion": "./scripts/postversion",
     "test": "jasmine"
   }
 }

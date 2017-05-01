@@ -2,9 +2,10 @@
 
 **u**seful e**x**tended **reg**ular **exp**ressions
 
-[![npm](https://img.shields.io/npm/v/uxregexp.svg)]() [![npm@next](https://img.shields.io/npm/v/uxregexp/next.svg)]() [![npm](https://img.shields.io/npm/dt/uxregexp.svg)]() [![npm](https://img.shields.io/npm/dm/uxregexp.svg)]()
+[![npm](https://img.shields.io/npm/v/uxregexp.svg)]() [![build](https://travis-ci.org/hg42/uxregexp.svg?branch=master)]()
+[![npm@next](https://img.shields.io/npm/v/uxregexp/next.svg)]() [![build](https://travis-ci.org/hg42/uxregexp.svg?branch=next)]()
 [![dependencies](https://david-dm.org/hg42/uxregexp/status.svg)](https://david-dm.org/hg42/uxregexp) [![devDependency Status](https://david-dm.org/hg42/uxregexp/dev-status.svg)](https://david-dm.org/hg42/uxregexp#info=devDependencies)
-
+[![npm](https://img.shields.io/npm/dt/uxregexp.svg)]() [![npm](https://img.shields.io/npm/dm/uxregexp.svg)]()
 
 ## purpose
 
@@ -40,6 +41,38 @@ so
 *   I still expect to find bugs
 *   it is not mature for production use (= use it at your own risk)
 
+## example
+```js
+UXRegExp = require('uxregexp');
+var matches = new UXRegExp('/a(b)(?:c)(d)(?<E>e)f/')
+                     .exec('PREabcdefPOST');
+console.log(matches);
+// ->
+{ input: 'PREabcdefPOST',
+  groups: { '1': 'b', '2': 'd', E: 'e' },
+  names: [ '1', '2', 'E' ],
+  infos:
+   { '1': { index: 4 },
+     '2': { index: 6 },
+     all: { index: 3 },
+     pre: { index: 0 },
+     post: { index: 9 },
+     E: { index: 7 },
+     grouped: { index: 4 } },
+  all: 'abcdef',
+  pre: 'PRE',
+  post: 'POST',
+  grouped: 'bcde' }
+```
+(note: the `names` member may change to have real numbers instead of number strings for numbered groups, however the keys in `groups` and `infos` are still restricted to strings)
+
+## distribution
+
+There is a `@next` channel (see `npm dist-tag`), where an upcoming version may be published for testing by beta testers or developers
+*   this can be an older version than `@latest`
+*   use `npm install uxregexp@next`
+*   use `npm install uxregexp` instead to install from the default channel `@latest`
+
 ## basic algorithm
 
 The extended regexp syntax is preprocessed and then **parsed** by `regexp-tree` (a nice module owned by github/DmitrySoshnikov) into an abstract syntax tree (AST).
@@ -60,7 +93,8 @@ Example:
 ```js
 var matches = /a(b)(c)d/.exec('abcd');
 console.log(matches);
-// -> [ 'abcd', 'b', 'c', index: 0, input: 'abcd' ]
+// ->
+[ 'abcd', 'b', 'c', index: 0, input: 'abcd' ]
 ```
 
 Javascript RegExp API returns
@@ -88,7 +122,8 @@ var matches = /a(b)(c)d/.exec('abcd');
 var index_b = matches.index + matches[0].indexOf(matches[1]);
 var index_c = matches.index + matches[0].indexOf(matches[2]);
 console.log([index_b, index_c]);
-// -> [1, 2]
+// ->
+[1, 2]
 ```
 This is the correct result for this case, but the strategy is wrong in the general case, because the group string can exist multiple times and you would always find the first.
 
@@ -100,7 +135,8 @@ var matches = /a(b)(b)c/.exec('abbc');
 var index_b1 = matches.index + matches[0].indexOf(matches[1]);
 var index_b2 = matches.index + matches[0].indexOf(matches[2]);
 console.log([index_b1, index_b2]);
-// -> [1, 1]
+// ->
+[1, 1]
 ```
 
 
@@ -114,7 +150,8 @@ var index_b2 = matches.index + matches[1].length
                 // start of match + length of 'a'
                 //                + length of first 'b'
 console.log([index_b1, index_b2]);
-// -> [1, 2]
+// ->
+[1, 2]
 ```
 This works, but for complex expressions it's complicated and a lot of work.
 In my use-case, a user creates the regular expression himself, so I definitely don't want to bother him with this increased complexity.
@@ -133,14 +170,10 @@ Discussion is welcome:
     var matches = new UXRegExp('/a(b)(?:c)(d)(?:e)f/')
                          .exec('PREabcdefPOST');
     console.log([matches.all, matches.grouped]);
-    // -> ['abcd', 'bcd']
+    // ->
+    ['abcd', 'bcd']
     ```
 
 ## todo
 
-*   add several methods (match/search/test/map/...?)
-*   add tests for multiline etc. (current use-case is single line only)
-
-## ideas
-
-*   some way to access the structure of the groups in the result
+see todo.txt
