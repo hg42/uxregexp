@@ -1,11 +1,26 @@
 sudo: false
 language: node_js
+branches:
+  only:
+  - master
+  - next
 node_js:
-  - "7"
-  - "6"
+- '7'
+- '6'
 install:
-  - npm install
+- npm install
 script:
-  - npm test
+- npm test
 after_success:
-  - bash <(curl -s https://codecov.io/bash)
+- bash <(curl -s https://codecov.io/bash)
+deploy:
+  provider: npm
+  email: frontari+github@gmail.com
+  api_key:
+    secure: Z/TyAXutqUvdOSkmoc06olLdZNGYWVXpxXkiRWbH64ZT3o+yazT0UmxC3xPZW1j5ncW9ynfoIC2fdKNjGyNdnwJypDy6B8ODklyUQmJb5Nnm8HIWj70hb7ps25P1oLvvw2QV3lLs5lGVSLrmnYXHKwe2UHKFaTYDkDpUgtozvIwqv3d8brDANCMceXJYlUXLWGtNe2P3VtZ9F0t5L27wpWMhVldbSCL/8qYA6gxVGTv1YjSQKcXwzVGymU2uLWCtdr9UrlboXn7h47z8iMRBSF+fbEjdpDB900wABceukQWE5o8HPThq36z5rq71NU6A1DFOu/eE/QsppmFPtk3z8YD/6rCdU/KnVvVJem2QNDiAfmKl/HSJ0TJ5xl0AcN7rtJ0p29js9d/oc+c6mCj4sNbjsaMj0Q1XvpqH9cyLfYKa77ClUfR6yGb2QjI4o03f/ZmgzTiRUQTgOOoklQMkeDf2u2ccaAW+sA0yFOMkvAqtJc5qEWbMqV4XJNGsy2uOVaTfq6KpmkrPtvdHsQ8P3N/77KTK8lGIKty/GyLQ3sJPxsg1kehG2luH9vjzZuVo6YxAFuMC5n7G/Ncm3lz/FVyv8zOCvaoHlFw6ARjE5UB3lCf2fAcZunXJM7X6BBKgSr80zsOkPabs3W6Zeeoku3dRua1K7aLiUDvOGXf4yns=
+  on:
+    tags: true
+    repo: hg42/uxregexp
+    branch: next
+notifications:
+  email: false
