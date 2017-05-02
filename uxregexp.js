@@ -7,25 +7,25 @@ UXRegExp = (function() {
 
   var use_collect_groups_with_same_name = 1;
 
-  var debug = 0;
-
-  var show = function(x) {
-    console.log(x);
-  };
-
-  var showt = function(x) {
-    show(JSON.stringify(x, null, '  '));
-  };
-
-  var showo = function(x) {
-    show(JSON.stringify(x));
-  };
+  // var debug = 0;
+  //
+  // var show = function(x) {
+  //   console.log(x);
+  // };
+  //
+  // var showt = function(x) {
+  //   show(JSON.stringify(x, null, '  '));
+  // };
+  //
+  // var showo = function(x) {
+  //   show(JSON.stringify(x));
+  // };
 
   //---------------------------------------------------------------------------- constructor
 
   function UXRegExp(re, options) {
 
-    if(debug >= 1) showo(['input expression', re, options]);
+    //if (debug >= 1) showo(['input expression', re, options]);
 
     var flags = '';
     var rtOptions = {};
@@ -39,34 +39,39 @@ UXRegExp = (function() {
       }
     }
 
-    if (re.includes('\n')) {
-      flags += 'x';
+    if(typeof re !== 'string') {
+      re = re.toString();
     }
 
     // extract flags, set options and remove those not known by javascript
 
-    if(typeof re === 'string') {
-      var matches = /^\s*\/([\s\S]*)\/([a-z]*)\s*$/.exec(re);
-      if (matches) {
-        re = matches[1];
-        flags = matches[2];
-      }
-      // escape '/'
-      re = re.replace('/', '\\/');
-      re = re.replace('\\\\/', '\\/');
-
-      // santize flags (sort, uniq)
-      flags = flags.split('')
-                   .sort()
-                   .filter(
-                     function(e,i,a) {
-                       return !i || e != a[i-1];
-                     }
-                   )
-                   .join('');
-
-      re = '/' + re + '/' + flags;
+    var matches = /^\s*\/([\s\S]*)\/([a-z]*)\s*$/.exec(re);
+    if (matches) {
+      re = matches[1];
+      flags += matches[2];
     }
+    // escape '/'
+    re = re.replace('/', '\\/');
+    re = re.replace('\\\\/', '\\/');
+
+    // automatically use x-flag for regexp with newlines
+
+    if (re.includes('\n')) {
+      flags += 'x';
+    }
+
+    // santize flags (sort, uniq)
+
+    flags = flags.split('')
+                 .sort()
+                 .filter(
+                   function(e,i,a) {
+                     return !i || e != a[i-1];
+                   }
+                 )
+                 .join('');
+
+    re = '/' + re + '/' + flags;
 
     //showo(['after preprocess', re]);
 
@@ -130,9 +135,9 @@ UXRegExp = (function() {
     //var toBeCombined = toBeWrapped;
     //var toBeCombined = function(node) { return false; };
 
-    var unwrapped = RegExpTree.generate(ast);
-    if(debug >= 2) show('--------------------- unwrapped');
-    if(debug >= 2) show(unwrapped);
+    // var unwrapped = RegExpTree.generate(ast);
+    // if(debug >= 2) show('--------------------- unwrapped');
+    // if(debug >= 2) show(unwrapped);
 
     RegExpTree.traverse(ast, {
 
@@ -215,43 +220,9 @@ UXRegExp = (function() {
       }
     });
 
-    var wrapped = RegExpTree.generate(ast);
-    if(debug >= 1) show('--------------------- wrapped');
-    if(debug >= 1) show(wrapped);
-
-
-
-    RegExpTree.traverse(ast, {
-
-      // remove useless Alternative with only one member
-      //
-      // Alternative: function(path) {
-      //   if( path.node.expressions.length == 1
-      //     ) {
-      //     showo(["******************** remove Alternative with only one child", path.node]);
-      //     path.replace(path.node.expressions[0]);
-      //   }
-      // },
-
-      // merge Group in Group
-
-      Group: function(path) {
-        if( path.node.expression.type === 'Group'
-          ) {
-          showo(["******************** merge nested Group", path.node, path.node.expression]);
-          var node = path.node;
-          var child = node.expression;
-          if(child.name && node.name && child.name != node.name)
-            return;
-          if(node.name)
-            child.name = node.name;
-          if(node.cpaturing)
-            child.capturing = true;
-          path.replace(child);
-        }
-      }
-
-    });
+    // var wrapped = RegExpTree.generate(ast);
+    // if(debug >= 1) show('--------------------- wrapped');
+    // if(debug >= 1) show(wrapped);
 
 
     // determine names of all groups (named and numbered)
@@ -327,8 +298,8 @@ UXRegExp = (function() {
 
     //showt(this);
 
-    if(debug >= 1) show('--------------------- re');
-    if(debug >= 1) show(this.re);
+    // if(debug >= 1) show('--------------------- re');
+    // if(debug >= 1) show(this.re);
   }
 
 
@@ -336,17 +307,16 @@ UXRegExp = (function() {
 
   UXRegExp.prototype.exec = function(text) {
 
-    if(debug >= 1) showo(text);
+    //if (debug >= 1) showo(text);
 
     var matches = this.re.exec(text);
 
-    if(debug >= 1) showo(matches);
+    //if (debug >= 1) showo(matches);
 
-    var result = null;
     if (!matches)
-      return result;
+      return null;
 
-    result = { input: text, groups: {}, names: [], infos: {} };
+    var result = { input: text, groups: {}, names: [], infos: {} };
 
     var setRootGroup = function(result, name, val, info) {
       result[name] = val;
@@ -386,7 +356,7 @@ UXRegExp = (function() {
       {index: charIndexAll + matches[0].length}
     );
 
-    if(debug >= 3) showo(result);
+    //if (debug >= 3) showo(result);
 
     // collect result groups as strings or groups according to original expression
     var position = [];
@@ -415,7 +385,7 @@ UXRegExp = (function() {
         setGroup(result, name, val, {index: pos});
       }
       next[level] = pos + len;
-      if(debug >= 2) show(['   '.repeat(level), name, pos, next[level]]);
+      //if (debug >= 2) show(['   '.repeat(level), name, pos, next[level]]);
       lastLevel = level;
     }
 
@@ -424,7 +394,7 @@ UXRegExp = (function() {
       {index: groupedMin}
     );
 
-    if(debug >= 1) showt(result);
+    //if (debug >= 1) showt(result);
 
     return result;
   };

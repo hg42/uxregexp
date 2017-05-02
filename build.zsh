@@ -8,7 +8,7 @@ echo dir=$dir
 if ${build_file:-false}; then
   file=$(realpath $1)
   if [[ $(basename $file) == *-spec.js ]]; then
-    npm test $file
+    npm run test-file $file
     exit
   fi
   echo cannot build file $1

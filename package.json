@@ -48,7 +48,7 @@
     "version": "",
     "postversion": "git push && git push --tags",
     "prepublish": "npm test",
-    "test": "npm run cover",
-    "cover": "istanbul cover jasmine"
+    "test": "istanbul cover jasmine",
+    "test-file": "jasmine"
   }
 }
