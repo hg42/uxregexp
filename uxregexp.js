@@ -1,25 +1,25 @@
 
 var RegExpTree = require('regexp-tree');
-var PREFIX_NON_CAPTURING = '$$';
-
 module.exports =
 UXRegExp = (function() {
 
   var use_collect_groups_with_same_name = 1;
 
-  // var debug = 0;
-  //
-  // var show = function(x) {
-  //   console.log(x);
-  // };
-  //
-  // var showt = function(x) {
-  //   show(JSON.stringify(x, null, '  '));
-  // };
-  //
-  // var showo = function(x) {
-  //   show(JSON.stringify(x));
-  // };
+  var PREFIX_NON_CAPTURING = '$$';
+
+  var debug = 0;
+
+  var show = function(x) {
+    console.log(x);
+  };
+
+  var showt = function(x) {
+    show(JSON.stringify(x, null, '  '));
+  };
+
+  var showo = function(x) {
+    show(JSON.stringify(x));
+  };
 
   //---------------------------------------------------------------------------- constructor
 
@@ -36,6 +36,10 @@ UXRegExp = (function() {
       if(options.flags) {
         flags += options.flags;
         delete options.flags;
+      }
+      if(options.debug) {
+        debug = options.debug;
+        delete options.debug;
       }
     }
 
@@ -81,33 +85,6 @@ UXRegExp = (function() {
     var ast = RegExpTree.parser.parse(re, rtOptions);
 
     //if(debug >= 3) showt(ast);
-
-
-    // check if any named or capturing groups exist...
-    //
-    // var anyNamedOrCapturingGroup = 0;
-    // RegExpTree.traverse(ast, {
-    //
-    //   Group: function(path) {
-    //     var node = path.node;
-    //     //if (node.name || node.capturing) {
-    //     if (node.capturing) {
-    //       return anyNamedOrCapturingGroup++;
-    //     }
-    //   }
-    // });
-    // //showo(['anyNamedOrCapturingGroup', anyNamedOrCapturingGroup]);
-    //
-    //
-    // // ...otherwise wrap whole expression in a group
-    //
-    // if (!anyNamedOrCapturingGroup) {
-    //   ast.body = {
-    //     type: 'Group',
-    //     capturing: false,
-    //     expression: ast.body
-    //   };
-    // }
 
 
     // ensure all parts of alternatives (=sequences) are groups.
@@ -316,7 +293,12 @@ UXRegExp = (function() {
     if (!matches)
       return null;
 
-    var result = { input: text, groups: {}, names: [], infos: {} };
+    var result = {
+      input: text,
+      groups: {},
+      names: [],
+      infos: {}
+    };
 
     var setRootGroup = function(result, name, val, info) {
       result[name] = val;
@@ -398,6 +380,17 @@ UXRegExp = (function() {
 
     return result;
   };
+
+  //---------------------------------------------------------------------------- test
+
+  UXRegExp.prototype.test = function(text) {
+
+    return this.re.test(text);
+  };
+
+  UXRegExp.show  = show;
+  UXRegExp.showo = showo;
+  UXRegExp.showt = showt;
 
   return UXRegExp;
 

@@ -3,13 +3,9 @@ const UXRegExp = require('../uxregexp');
 
 describe('UXRegExp:', () => {
   describe('flags', () => {
-    it('should ignore comments and whitespace', () => {
-      var uxre = new UXRegExp('\n\
-                              x    # some comment\n\
-                              y z  # some comment with (.*?[^][) special characters\n\
-                              \n\
-                          ', 'iixx');
-      expect(uxre.re.toString()).toBe('/(xyz)/i');
+    it('should be sorted and be unique', () => {
+      var uxre = new UXRegExp('/ x y z /m', 'ixig');
+      expect(uxre.re.toString()).toBe('/(xyz)/gim');
     });
   });
 });

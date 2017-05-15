@@ -18,12 +18,12 @@
     "node": ">=6"
   },
   "dependencies": {
-    "regexp-tree": "^0.0.47"
+    "regexp-tree": "~0.0.48"
   },
   "devDependencies": {
-    "jasmine": "^2.6.0",
-    "istanbul": "^0.4.5",
-    "codecov": "^2.1.0"
+    "jasmine": "~2.6.0",
+    "istanbul": "~0.4.5",
+    "codecov": "~2.2.0"
   },
   "optionalDependencies": {},
   "main": "./uxregexp.js",

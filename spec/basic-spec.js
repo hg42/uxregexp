@@ -43,11 +43,4 @@ describe('UXRegExp:', () => {
       expect(uxre.re.toString()).toBe('/(abc)/i');
     });
   });
-  describe('exec', () => {
-    it('should return null if no match', () => {
-      var uxre = new UXRegExp('abc');
-      var result = uxre.exec('xyz');
-      expect(result).toBe(null);
-    });
-  });
 });

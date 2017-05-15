@@ -1,15 +1,30 @@
-general:
-  TODO: babel, ES6
-
 API:
+  TODO: use .groups.all etc., use .names for iteration
+  TODO: eventually remove "/regexp/flags" or only allow it if only one parameter or no flags given
   TODO: find a way to represent the nesting of groups in the result
-  TODO: add more methods (match/search/test/map/replace/traverse...?)
+  TODO: g-flag -> array of match-objects
+  TODO: named backreferences
+  TODO: properties flags, global,... RegExp.prototype.*  https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RegExp/global
+  TODO: string.match
+  TODO: string.search
+  TODO: string.replace
+  TODO: string.split
+  TODO: uxre.replace
+  TODO: uxre.traverse result tree
+  TODO: import features from xregexp http://www.regular-expressions.info/xregexp.html
+    TODO: attach to RegExp object like xregexp does?
+    TODO: xregexp.build
+    TODO: xregexp.union
+    TODO: xregexp.forEach
+    TODO: xregexp.matchChain
+  TODO: http://www.regular-expressions.info/replacebackref.html named backreferences, refs to "(...)?"
 
 algorithm:
   TODO: wrapping not necessary after the last capturing group (any advantages?)
 
+general:
+  TODO: babel, ES6
+  TODO: return values?
+
 tests:
   TODO: add tests for multiline etc. (current use-case is single line only)
-
-doc:
-  TODO: badges

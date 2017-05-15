@@ -9,6 +9,9 @@
 *   [![npm-downloads](https://img.shields.io/npm/dt/uxregexp.svg)]() [![npm](https://img.shields.io/npm/dm/uxregexp.svg)]() [![npm](https://img.shields.io/npm/dw/uxregexp.svg)]()
 *   [![license](https://img.shields.io/npm/l/uxregexp.svg)]()
 
+
+&#x25B8;[features](#features) &#x25B8;[disclaimer](#disclaimer) &#x25B8;[example](#example) &#x25B8;[distribution](#distribution) &#x25B8;[basic algorithm](#basic-algorithm) &#x25B8;[why?](#why) &#x25B8;[unstable features](#unstable-features) &#x25B8;[todo](#todo)
+
 ## purpose
 
 A regular expression module with a redefined API to
@@ -18,26 +21,46 @@ A regular expression module with a redefined API to
 
 ## features
 
-**"stable"** features in the sense of "API unlikely to change":
-*   **named groups**: `(?<name>...)` -> `matches.groups.name` or `matches.groups['name']`
-*   **numbered groups** are handled like named groups (number used as name): `matches.groups[1]`
-*   **char index for each group** (position in input string): `matches.infos[name].index`
+these are working, but the module is in an early state annd all the API may change without warning.
+
+**main** feature that's not availbale in other extended regexp libraries
+*   **char index for each group** (position in input string):
+      `matches.infos[name].index`
+    I know only one module providing this feature standalone: `match-index`.
+    However, it does not support nested capture groups.
+
+other extended features:
+*   **named groups**:
+      `(?<name>...)` -> `matches.groups.name` (`matches.groups['name']`)
+*   **numbered groups** are handled like named groups (number used as name):
+      `matches.groups[1]`...
 *   matches.**all** returns match for the whole expression (`matches[0]` in javascript)
 *   matches.**pre**, matches.**post**
 *   support for **x-flag**: (whitespace/newlines/comments ignored)
+      ```
+      var uxre = new UXRegExp('                               \n\
+                        a      # comment on first expression  \n\
+                        b      # a second expession           \n\
+                        c .* e                                \n\
+                        ', 'x');
+      ```
 
 Some features are not listed here, because they will probably change in the future.
-Please have look at the last section of this document for some **unstable features**.
+Please look at section [unstable features](#unstable-features).
 
 ## disclaimer
 
-It does **NOT** try to be **compatible** to javascript RegExp.
+It is **NOT** meant to be **compatible** to javascript RegExp API.
+I currently don't see how the javascript RegExp API could be integrated with
+advanced features without sacrificing simplicity and orthogonality and restricting
+some of the features.
+
 Instead it tries to create a more useful API.
 
 It's currently only used for a single use-case (a contribution to an Atom add-on `process-palette`),
-so
+so:
 *   it will probably go through some more development steps
-*   the API may change
+*   the API may change dramatically
 *   I am open for suggestions
 *   it is not tested in the wild
 *   I still expect to find bugs
@@ -67,6 +90,9 @@ console.log(matches);
   post: 'POST',
   grouped: 'bcde' }
 ```
+I am not really happy with using both .groups and .infos.
+I separated these to ease the standard usage of getting the value.
+But I am thinking about other solutions like using methods instead (e.g. `matches.get(name)`).
 
 ## distribution
 

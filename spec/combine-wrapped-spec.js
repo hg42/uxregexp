@@ -3,6 +3,14 @@ const UXRegExp = require('../uxregexp');
 
 describe('UXRegExp:', () => {
   describe('wrapped expressions', () => {
+    it('single elements should be without group', () => {
+      var uxre = new UXRegExp('[abc]');
+      expect(uxre.re.toString()).toBe('/[abc]/');
+    });
+    // it('should be simple if possible', () => {
+    //   var uxre = new UXRegExp('a[b]x(?:.*)[c-d]*yz?');
+    //   expect(uxre.re.toString()).toBe('/(a[b]x.*[c-d]*yz?)/');
+    // });
     it('should be combined', () => {
       var uxre = new UXRegExp('a[b](x).*[c-d]*(?:y)(?:z)?');
       expect(uxre.re.toString()).toBe('/(a[b])(x)(.*[c-d]*)(y)((z)?)/');

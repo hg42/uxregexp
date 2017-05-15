@@ -12,7 +12,7 @@ describe('UXRegExp:', () => {
     it('should ignore null groups in disjunction ("|")', () => {
       var uxre = new UXRegExp('/a((?<group>b)|(?<group>c)|(?<group>d))e/');
       var result = uxre.exec('PREabePOST');
-      expect(result.groups.group).toEqual('b');
+      expect(result.groups.group).toBe('b');
       expect(result.infos.group).toEqual({index: 4});
     });
     it('should collect matching but empty group', () => {
