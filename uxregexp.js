@@ -255,11 +255,18 @@ UXRegExp = (function() {
 
 
     // remove names from all groups
+    // set group numbers ofr named back references
 
     RegExpTree.traverse(ast, {
       Group: function(arg) {
-        var node;
-        node = arg.node;
+        var node = arg.node;
+        return delete node.name;
+      },
+      Backreference: function(arg) {
+        var node = arg.node;
+        node.kind = 'number';
+        node.reference = names.indexOf(node.reference);
+        node.number = node.reference;
         return delete node.name;
       }
     });
