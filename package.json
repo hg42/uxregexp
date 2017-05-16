@@ -1,6 +1,6 @@
 {
   "name": "uxregexp",
-  "description": "Extended Regular Expressions with group names, positions and hierarchy",
+  "description": "Extended Regular Expressions with group positions, named groups",
   "version": "0.0.12",
   "license": "MIT",
   "author": {

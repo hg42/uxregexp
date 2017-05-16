@@ -13,6 +13,7 @@ API:
   TODO: uxre.traverse result tree
   TODO: import features from xregexp http://www.regular-expressions.info/xregexp.html
     TODO: attach to RegExp object like xregexp does? probably not, because we do not mimic RegExp API
+    TODO: xregexp.isRegExp
     TODO: xregexp.build
     TODO: xregexp.union
     TODO: xregexp.forEach
