@@ -77,7 +77,7 @@ UXRegExp = (function() {
 
     re = '/' + re + '/' + flags;
 
-    showo(['after preprocess', re]);
+    //showo(['after preprocess', re]);
 
 
     // build AST from re
