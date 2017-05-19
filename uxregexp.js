@@ -55,8 +55,8 @@ UXRegExp = (function() {
       flags += matches[2];
     }
     // escape '/'
-    re = re.replace('/', '\\/');
-    re = re.replace('\\\\/', '\\/');
+    re = re.replace(/\//g,     '\\/');
+    re = re.replace(/\\\\\//g, '\\/');
 
     // automatically use x-flag for regexp with newlines
 
@@ -77,7 +77,7 @@ UXRegExp = (function() {
 
     re = '/' + re + '/' + flags;
 
-    //showo(['after preprocess', re]);
+    showo(['after preprocess', re]);
 
 
     // build AST from re
