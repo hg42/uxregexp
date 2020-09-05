@@ -18,14 +18,18 @@
     "node": ">=6"
   },
   "dependencies": {
-    "regexp-tree": "~0.0.48"
+    "atom-check-updates": "^1.1.0",
+    "becke-ch--regex--s0-0-v1--base--pl--lib": "^1.4.0",
+    "match-index": "^1.0.1",
+    "regexp-tree": "0.0.74"
   },
   "devDependencies": {
-    "jasmine": "~2.6.0",
-    "istanbul": "~0.4.5",
-    "codecov": "~2.2.0"
+    "codecov": "^2.3.1",
+    "istanbul": "^0.4.5",
+    "jasmine": "^2.99.0",
+    "perfy": "^1.1.5",
+    "xregexp": "^3.2.0"
   },
-  "optionalDependencies": {},
   "main": "./uxregexp.js",
   "readme": "README.md",
   "homepage": "https://github.com/hg42/uxregexp",
@@ -47,7 +51,7 @@
     "preversion": "npm test",
     "version": "",
     "postversion": "git push && git push --tags",
-    "prepublish": "npm test",
+    "prepare": "npm test",
     "test": "istanbul cover jasmine",
     "test-file": "jasmine"
   }

@@ -4,8 +4,8 @@ require('../polyfill/string-padend');
 var text = 'abcdefghijklmnopqrstuvwxyz';
 var re = '/   \n  (?:bcd) ( [ex-z] .*  # comment with special chars ([*? \n  (g.* (?<I>i) ) \n j (?<K>k) ) l (?:mn)? (opq)  r s t /x  \n   ';
 
-RegExpTree = require('regexp-tree');
-
+//RegExpTree = require('regexp-tree');
+//
 // var ast = RegExpTree.parse(re);
 //
 // console.log(JSON.stringify(ast, null, '  '));

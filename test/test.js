@@ -5,7 +5,7 @@ function show(x) {
   console.log(JSON.stringify(x));
 }
 
-if(1) {
+if(0) {
   var t = '1234567890';
   var s = new String(t.substring(2, 5));
   s.x = 'xxx';
@@ -27,7 +27,12 @@ if(1) {
 }
 
 if(0) {
-  var matches = /a(b)(c)d/.exec('abcd');
+  var matches = /a(b).(d)e/.exec('abcde');
+  console.log(matches);
+}
+
+if(1) {
+  var matches = /a(b).(d)e/.matchAll('abcde');
   console.log(matches);
 }
 
