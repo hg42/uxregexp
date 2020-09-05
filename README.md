@@ -9,7 +9,7 @@
 *   [![license](https://img.shields.io/npm/l/uxregexp.svg)]()
 
 
-&#x25B8;[features](#features)  &#x25B8;[disclaimer](#disclaimer)  &#x25B8;[example](#example)  &#x25B8;[basic algorithm](#basic-algorithm)  &#x25B8;[why?](#why)  &#x25B8;[unstable features](#unstable-features)  &#x25B8;[todo](#todo)
+&rarr;[features](#features)&nbsp;&nbsp;&rarr;[disclaimer](#disclaimer)&nbsp;&nbsp;&rarr;[example](#example)&nbsp;&nbsp;&rarr;[basic algorithm](#basic-algorithm)&nbsp;&nbsp;&rarr;[why?](#why)&nbsp;&nbsp;&rarr;[unstable features](#unstable-features)&nbsp;&nbsp;&rarr;[todo](#todo)
 
 ## current
 
@@ -23,11 +23,13 @@ A regular expression module with a redefined API to
 *   add some extended features
 *   make regular expressions more usable
 
+but see &rarr;[why?](#why) for the real reasons...
+
 ## features
 
 these are working, but the module is in an early state annd all the API may change without warning.
 
-**main** feature that's not availbale in other extended regexp libraries
+**main** feature that's not available in other extended regexp libraries
 *   **char index for each group** (position in input string):
       `matches.infos[name].index`
     I know only one module providing this feature standalone: `match-index`.
@@ -110,6 +112,10 @@ The exec method executes the javascript regexp and postprocesses the result with
 ## why?
 
 There are many modules for extended regular expressions, so why another one?
+
+I wanted to have better varaible handling in an atom add-on called `process-palette`.
+So I tried to add a regexp based solution.
+But this was impossible with existing regexp solutions for javascript.
 
 From my point of view, the **javascript RegExp** class has a **design flaw**,
 which makes them nearly unusable in some use-cases.
