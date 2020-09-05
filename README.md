@@ -11,6 +11,11 @@
 
 &#x25B8;[features](#features)  &#x25B8;[disclaimer](#disclaimer)  &#x25B8;[example](#example)  &#x25B8;[basic algorithm](#basic-algorithm)  &#x25B8;[why?](#why)  &#x25B8;[unstable features](#unstable-features)  &#x25B8;[todo](#todo)
 
+## current
+
+currently the regexp-tree package is pinned to 0.0.74, because it rejects duplicate group names in later versions.
+A corresponding github issue is on the way...
+
 ## purpose
 
 A regular expression module with a redefined API to
