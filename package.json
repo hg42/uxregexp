@@ -20,15 +20,15 @@
   "dependencies": {
     "atom-check-updates": "^1.1.0",
     "becke-ch--regex--s0-0-v1--base--pl--lib": "^1.4.0",
-    "match-index": "^1.0.1",
+    "match-index": "^1.0.3",
     "regexp-tree": "0.0.74"
   },
   "devDependencies": {
-    "codecov": "^2.3.1",
+    "codecov": "^3.7.2",
     "istanbul": "^0.4.5",
-    "jasmine": "^2.99.0",
+    "jasmine": "^3.6.1",
     "perfy": "^1.1.5",
-    "xregexp": "^3.2.0"
+    "xregexp": "^4.3.0"
   },
   "main": "./uxregexp.js",
   "readme": "README.md",
