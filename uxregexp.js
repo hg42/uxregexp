@@ -10,14 +10,17 @@ UXRegExp = (function() {
   var debug = 0;
 
   var show = function(x) {
+    /* istanbul ignore next */
     console.log(x);
   };
 
   var showt = function(x) {
+    /* istanbul ignore next */
     show(JSON.stringify(x, null, '  '));
   };
 
   var showo = function(x) {
+    /* istanbul ignore next */
     show(JSON.stringify(x));
   };
 
