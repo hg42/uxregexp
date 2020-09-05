@@ -9,7 +9,7 @@
 *   [![license](https://img.shields.io/npm/l/uxregexp.svg)]()
 
 
-&#x25B8;[features](#features) &#x25B8;[disclaimer](#disclaimer) &#x25B8;[example](#example) &#x25B8;[distribution](#distribution) &#x25B8;[basic algorithm](#basic-algorithm) &#x25B8;[why?](#why) &#x25B8;[unstable features](#unstable-features) &#x25B8;[todo](#todo)
+&#x25B8;[features](#features)  &#x25B8;[disclaimer](#disclaimer)  &#x25B8;[example](#example)  &#x25B8;[basic algorithm](#basic-algorithm)  &#x25B8;[why?](#why)  &#x25B8;[unstable features](#unstable-features)  &#x25B8;[todo](#todo)
 
 ## purpose
 
@@ -92,13 +92,6 @@ console.log(matches);
 I am not really happy with using both .groups and .infos.
 I separated these to ease the standard usage of getting the value.
 But I am thinking about other solutions like using methods instead (e.g. `matches.get(name)`).
-
-## distribution
-
-There is a `@next` channel (see `npm dist-tag`), where an upcoming version may be published for testing by beta testers or developers
-*   this can be an older version than `@latest`
-*   use `npm install uxregexp@next`
-*   use `npm install uxregexp` instead to install from the default channel `@latest`
 
 ## basic algorithm
 
