@@ -1,7 +1,7 @@
 {
   "name": "uxregexp",
   "description": "Extended Regular Expressions with group positions, named groups",
-  "version": "0.0.18",
+  "version": "0.0.19",
   "license": "MIT",
   "author": {
     "name": "Harald Gutsche"
@@ -21,7 +21,7 @@
     "atom-check-updates": "^1.1.0",
     "becke-ch--regex--s0-0-v1--base--pl--lib": "^1.4.0",
     "match-index": "^1.0.3",
-    "regexp-tree": "0.0.74"
+    "regexp-tree": "0.1.23"
   },
   "devDependencies": {
     "codecov": "^3.7.2",

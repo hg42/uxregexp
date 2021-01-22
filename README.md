@@ -13,8 +13,8 @@
 
 ## current
 
-currently the regexp-tree package is pinned to 0.0.74, because it rejects duplicate group names in later versions.
-A corresponding github issue is on the way...
+The latest addition in regexp-tree package 0.1.23 allows duplicate group names, so it's back to the current version.
+Thanks Dmitry Soshnikov for his work on that.
 
 ## purpose
 
@@ -27,7 +27,7 @@ but see &rarr;[why?](#why) for the real reasons...
 
 ## features
 
-these are working, but the module is in an early state annd all the API may change without warning.
+these are working, but the module is in an early state and the API may change without warning.
 
 **main** feature that's not available in other extended regexp libraries
 *   **char index for each group** (position in input string):

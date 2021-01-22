@@ -31,7 +31,7 @@ UXRegExp = (function() {
     //if (debug >= 1) showo(['input expression', re, options]);
 
     var flags = '';
-    var rtOptions = {};
+    var rtOptions = { allowGroupNameDuplicates: true };
 
     if(typeof options === 'string') {
       flags += options;
