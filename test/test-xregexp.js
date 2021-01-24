@@ -14,3 +14,5 @@ re = new XRegExp('                              \n\
             );
 
 console.log(XRegExp.split("abc1961-09-04def", re));
+
+console.log(re.exec("abc1961-09-04def"));

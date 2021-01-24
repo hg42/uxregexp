@@ -14,10 +14,10 @@ var groups = matchIndex.matchCaptureGroupAll("abc1961-09-04def",
               /([0-9]{4})-?([0-9]{2})-?([0-9]{2})/
               );
 
-test(groups, [ { text: '1961', index: 3 }, { text: '09', index: 8 }, { text: '04', index: 11 } ]);
+test(groups, [{"text":"1961","index":3},{"text":"09","index":8},{"text":"04","index":11}]);
 
 var groups = matchIndex.matchCaptureGroupAll("abc1961-09-04def",
               /([0-9]{4})(-?([0-9]{2}))-?([0-9]{2})/
               );
 
-test(groups, [ { text: '1961', index: 3 }, { text: '-09', index: 7 }, { text: '09', index: 8 }, { text: '04', index: 11 } ]);
+test(groups, [{"text":"1961","index":3},{"text":"-09","index":7},{"text":"09","index":9},{"text":"04","index":11}]);

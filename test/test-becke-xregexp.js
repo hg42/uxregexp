@@ -9,7 +9,8 @@ function test(a,b)
     console.log("FAILED: " + JSON.stringify(a) + "\n  want: " + JSON.stringify(b));
   }
 
-RegExp = require('becke-ch--regex--s0-0-v1--base--pl--lib');
+//RegExp = require('becke-ch--regex--s0-0-v1--base--pl--lib');
+require("regexp-match-indices/auto");
 IXRegExp = require('xregexp');
 
 var re = new IXRegExp('                              \n\

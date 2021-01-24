@@ -1,55 +1,34 @@
 
-require('../polyfill/string-padend');
+function eq(a,b) { return JSON.stringify(a) === JSON.stringify(b); }
 
-var text = 'abcdefghijklmnopqrstuvwxyz';
-var re = '/   \n  (?:bcd) ( [ex-z] .*  # comment with special chars ([*? \n  (g.* (?<I>i) ) \n j (?<K>k) ) l (?:mn)? (opq)  r s t /x  \n   ';
-
-//RegExpTree = require('regexp-tree');
-//
-// var ast = RegExpTree.parse(re);
-//
-// console.log(JSON.stringify(ast, null, '  '));
-//
-//
-// var result = RegExpTree.exec(re, text);
-//
-// console.log(JSON.stringify(result, null, '  '));
-//
-// var regexp = RegExpTree.compatTranspile(re).toRegExp();
-// var result2 = regexp.exec(text);
-//
-// console.log(JSON.stringify(result2, null, '  '));
-
-UXRegExp = require('..');
-
-var uxre = new UXRegExp(re);
-var matches = uxre.exec(text);
-
-var text = '';
-
-showGroup = function(matches, name) {
-  var text = matches.input;
-  var value = null;
-  if(matches.groups[name])
-    value = matches.groups[name];
+function test(a,b)
+  {
+  if(eq(a,b))
+    console.log("ok:     " + JSON.stringify(a));
   else
-    value = matches[name];
-  var index = matches.infos[name].index;
-  console.log(
-    (JSON.stringify(name) + ':').padEnd(5) +
-    '\'' + value + '\'' +
-    ' (' + index + ')' +
-    '\n' +
-    ' '.padEnd(5) +
-    '\'' +  text.substr(index, value.length) + '\''
-  );
-};
+    console.log("FAILED: " + JSON.stringify(a) + "\n  want: " + JSON.stringify(b));
+  }
 
-console.log(JSON.stringify(matches, null, '  '));
+const UXRegExp = require('..');
 
-showGroup(matches, 'all');
-showGroup(matches, 'pre');
-showGroup(matches, 'post');
-for (var name of matches.names) {
-  showGroup(matches, name);
-}
+var re = new UXRegExp('                       \n\
+            (?<year>  [0-9]{4} ) -?  # year   \n\
+            (?<month> [0-9]{2} ) -?  # month  \n\
+            (?<day>   [0-9]{2} )     # day    \n\
+            |                                 \n\
+            (?<month> [0-9]{2} ) /   # month  \n\
+            (?<day>   [0-9]{2} ) /   # day    \n\
+            (?<year>  [0-9]{4} )     # year   \n\
+            ',
+            'x'
+          );
+
+
+var matches = re.exec("abc1961-09-04def", re);
+
+console.log('matches = ', matches);
+//console.log('indices = ', matches.indices);
+console.log('year  = ', matches.groups.year)
+console.log('month = ', matches.groups.month)
+console.log('day   = ', matches.groups.day)
+//console.log(JSON.stringify(matches, null, '  '));
