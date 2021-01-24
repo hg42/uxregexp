@@ -1,4 +1,5 @@
 API:
+  TODO: https://github.com/tc39/proposal-regexp-match-indices -> result.indices // [[1, 8], [4, 8], [6, 8]]
   TODO: use .groups.all etc., use .names for iteration
   TODO: add numbered groups for named groups?
   TODO: eventually remove "/regexp/flags" or only allow it if only one parameter or no flags given

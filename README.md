@@ -37,7 +37,11 @@ these are working, but the module is in an early state and the API may change wi
 
 other extended features:
 *   **named groups**:
-      `(?<name>...)` -> `matches.groups.name` (`matches.groups['name']`)
+      `(?<name>...)` -> `matches.groups.name` (`matches.groups['name
+*   **multiple groups with same name**
+      this allows things like date parsing with alternate paths for different formats,
+      that all use the same group names (e.g. year-month-day vs. month/day/year).
+      Only one matches usually.
 *   **numbered groups** are handled like named groups (number used as name):
       `matches.groups[1]`...
 *   matches.**all** returns match for the whole expression (`matches[0]` in javascript)
@@ -53,6 +57,16 @@ other extended features:
 
 Some features are not listed here, because they will probably change in the future.
 Please look at section [unstable features](#unstable-features).
+
+## javascript standard catching up
+
+There is hope...the javascript standard improves it's RegExp library.
+Lately I found two proposals:
+
+*   match indices
+    https://github.com/tc39/proposal-regexp-match-indices tc39/proposal-regexp-match-indices
+*   multiple named capturing groups with the same name
+    https://github.com/tc39/proposal-regexp-named-groups/issues/44
 
 ## disclaimer
 
@@ -113,7 +127,7 @@ The exec method executes the javascript regexp and postprocesses the result with
 
 There are many modules for extended regular expressions, so why another one?
 
-I wanted to have better varaible handling in an atom add-on called `process-palette`.
+I wanted to have better variable handling in an atom add-on called `process-palette`.
 So I tried to add a regexp based solution.
 But this was impossible with existing regexp solutions for javascript.
 
@@ -137,6 +151,8 @@ Javascript RegExp API returns
 
 Most (or may be all?) other regexp libraries like perl, PCRE, python, golang, ... return character indexes for each group.
 But javascript does not provide these. You ony get the start index of the whole match.
+
+As noted above, javascript improves on that, we will see.
 
 You can try this online at [regex101](https://regex101.com/)
 
