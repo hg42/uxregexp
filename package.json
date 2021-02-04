@@ -57,5 +57,6 @@
     "prepare": "",
     "test": "istanbul cover jasmine",
     "test-file": "jasmine"
-  }
+  },
+  "runkitExampleFilename": "example-runkit.js"
 }
