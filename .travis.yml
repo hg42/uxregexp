@@ -5,8 +5,7 @@ branches:
   - master
   - next
 node_js:
-- '7'
-- '6'
+- '12'
 install:
 - npm install
 script:
@@ -21,6 +20,6 @@ deploy:
   on:
     tags: true
     repo: hg42/uxregexp
-    branch: next
+    branch: master
 notifications:
-  email: false
+  email: true

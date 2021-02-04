@@ -5,6 +5,8 @@ echo dir=$dir
 
 #exec npm test spec/test-spec.js
 
+ln -sfn .. node_modules/uxregexp
+
 if ${build_file:-false}; then
   file=$(realpath $1)
   if [[ $(basename $file) == *-spec.js ]]; then
