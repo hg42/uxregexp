@@ -2,7 +2,7 @@
 
 **u**seful e**x**tended **reg**ular **exp**ressions
 
-*   [![npm-version](https://img.shields.io/npm/v/uxregexp.svg)]() [![build](https://travis-ci.org/hg42/uxregexp.svg?branch=master)]() [![code-coverage](https://img.shields.io/codecov/c/github/hg42/uxregexp/master.svg)](https://codecov.io/github/hg42/uxregexp?branch=master)
+*   [![npm-version](https://img.shields.io/npm/v/uxregexp.svg)]() [![build](https://travis-ci.org/hg42/uxregexp.svg?branch=main)]() [![code-coverage](https://img.shields.io/codecov/c/github/hg42/uxregexp/main.svg)](https://codecov.io/github/hg42/uxregexp?branch=main)
 *   [![issues](https://img.shields.io/github/issues/hg42/uxregexp.svg)]() [![pull-requests](https://img.shields.io/github/issues-pr/hg42/uxregexp.svg)]()
 *   [![dependencies](https://david-dm.org/hg42/uxregexp/status.svg)](https://david-dm.org/hg42/uxregexp) [![devDependency Status](https://david-dm.org/hg42/uxregexp/dev-status.svg)](https://david-dm.org/hg42/uxregexp#info=devDependencies)
 *   [![npm-downloads](https://img.shields.io/npm/dt/uxregexp.svg)]() [![npm](https://img.shields.io/npm/dm/uxregexp.svg)]() [![npm](https://img.shields.io/npm/dw/uxregexp.svg)]()

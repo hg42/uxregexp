@@ -2,8 +2,7 @@ sudo: false
 language: node_js
 branches:
   only:
-  - master
-  - next
+  - main
 node_js:
 - '12'
 install:
@@ -20,6 +19,6 @@ deploy:
   on:
     tags: true
     repo: hg42/uxregexp
-    branch: master
+    branch: main
 notifications:
   email: true
