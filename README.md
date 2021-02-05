@@ -13,7 +13,8 @@
 
 ## current
 
-The latest addition in regexp-tree package 0.1.23 allows duplicate group names, so it's back to the current version.
+* added example for RunKit
+* The latest addition in regexp-tree package 0.1.23 allows duplicate group names, so it's back to the current version.
 Thanks Dmitry Soshnikov for his work on that.
 
 ## purpose
