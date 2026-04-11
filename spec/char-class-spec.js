@@ -1,7 +1,7 @@
 
 const UXRegExp = require('../uxregexp');
 
-describe('UXRegExp:', () => {
+describe('UXRegExp: char class', () => {
   describe('char class', () => {
     it('should use "." as simple char', () => {
       var uxre = new UXRegExp('/[.]+/');

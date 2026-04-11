@@ -1,7 +1,7 @@
 
 const UXRegExp = require('../uxregexp');
 
-describe('UXRegExp:', () => {
+describe('UXRegExp: flag-g', () => {
   describe('g-flag', () => {
     it('should give single matches with exec', () => {
       var uxre = new UXRegExp('[xyz]', 'g');

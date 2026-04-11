@@ -1,7 +1,7 @@
 
 const UXRegExp = require('../uxregexp');
 
-describe('UXRegExp:', () => {
+describe('UXRegExp: backrefs', () => {
   describe('numbered backreferences (...)\\1', () => {
     it('should match', () => {
       var uxre = new UXRegExp('(?:a)(b)(c).(\\2)(\\1)');

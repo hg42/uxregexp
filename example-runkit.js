@@ -12,6 +12,8 @@ var uxre = new UXRegExp('                           \n\
                   'xg'
                   );
 
-var match = uxre.exec("2020-12-31");
+var match = uxre.exec("abc12/31/2020def");
+
+console.log(match);
 
 return match;

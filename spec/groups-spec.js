@@ -1,7 +1,7 @@
 
 const UXRegExp = require('../uxregexp');
 
-describe('UXRegExp:', () => {
+describe('UXRegExp: groups', () => {
   var matches = new UXRegExp('(?:a)(?:b)(c)(?<X>x)(?<Y>y)(?<Z>z)(?:d)(e)(?:f)').exec('PREabcxyzdefPOST');
   describe('non-capturing groups (?:...)', () => {
     it('should not be counted', () => {

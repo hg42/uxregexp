@@ -18,17 +18,17 @@
     "node": ">=6"
   },
   "dependencies": {
-    "regexp-tree": "0.1.23"
+    "regexp-tree": "0.1.27"
   },
   "devDependencies": {
     "becke-ch--regex--s0-0-v1--base--pl--lib": "^1.4.0",
-    "codecov": "^3.7.2",
-    "istanbul": "^0.4.5",
-    "jasmine": "^3.6.1",
+    "codecov": "^3.8.2",
+    "nyc": "^18.0.0",
+    "jasmine": "^6.1.0",
     "match-index": "^1.0.3",
     "perfy": "^1.1.5",
     "regexp-match-indices": "^1.0.2",
-    "xregexp": "^4.4.1"
+    "xregexp": "^5.1.2"
   },
   "unusedDependencies": {
     "atom-check-updates": "^1.1.0"
@@ -55,8 +55,10 @@
     "version": "",
     "postversion": "git push && git push --tags",
     "prepare": "",
-    "test": "istanbul cover jasmine",
-    "test-file": "jasmine"
+    "test": "nyc jasmine",
+    "test-file": "jasmine",
+    "update": "npm install",
+    "audit-fix": "npm audit fix"
   },
   "runkitExampleFilename": "example-runkit.js"
 }

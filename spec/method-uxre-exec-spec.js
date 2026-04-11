@@ -1,7 +1,7 @@
 
 const UXRegExp = require('../uxregexp');
 
-describe('UXRegExp:', () => {
+describe('UXRegExp: method uxre exec', () => {
   describe('exec(...)', () => {
     it('should return null if no match', () => {
       var uxre = new UXRegExp('abc');

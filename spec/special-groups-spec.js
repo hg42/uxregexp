@@ -1,7 +1,7 @@
 
 const UXRegExp = require('../uxregexp');
 
-describe('UXRegExp:', () => {
+describe('UXRegExp: special groups', () => {
   describe('result.all', () => {
     it('should include all matching parts', () => {
       var uxre = new UXRegExp('/a(b)(?:c)(?<D>d)(?:e)f/');

@@ -1,7 +1,7 @@
 
 const UXRegExp = require('../uxregexp');
 
-describe('UXRegExp:', () => {
+describe('UXRegExp: basic functionality', () => {
   describe('constructor', () => {
 
     it('should accept regexp as string with slashes', () => {

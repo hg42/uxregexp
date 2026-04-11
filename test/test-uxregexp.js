@@ -24,11 +24,20 @@ var re = new UXRegExp('                       \n\
           );
 
 
-var matches = re.exec("abc1961-09-04def", re);
+var matches = re.exec("abc2020-12-31def", re);
 
 console.log('matches = ', matches);
 //console.log('indices = ', matches.indices);
-console.log('year  = ', matches.groups.year)
-console.log('month = ', matches.groups.month)
-console.log('day   = ', matches.groups.day)
+console.log('year  = ', matches.groups.year);
+console.log('month = ', matches.groups.month);
+console.log('day   = ', matches.groups.day);
 //console.log(JSON.stringify(matches, null, '  '));
+
+var matches2 = re.exec("abc12/31/2020def", re);
+
+console.log('matches2 = ', matches2);
+//console.log('indices = ', matches2.indices);
+console.log('year  = ', matches2.groups.year);
+console.log('month = ', matches2.groups.month);
+console.log('day   = ', matches2.groups.day);
+//console.log(JSON.stringify(matches2, null, '  '));

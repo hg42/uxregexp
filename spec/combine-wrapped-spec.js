@@ -1,7 +1,7 @@
 
 const UXRegExp = require('../uxregexp');
 
-describe('UXRegExp:', () => {
+describe('UXRegExp: combine', () => {
   describe('wrapped expressions', () => {
     it('single elements should be without group', () => {
       var uxre = new UXRegExp('[abc]');

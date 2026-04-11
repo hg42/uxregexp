@@ -1,7 +1,7 @@
 
 const UXRegExp = require('../uxregexp');
 
-describe('UXRegExp:', () => {
+describe('UXRegExp: nesting', () => {
   describe('simple nesting', () => {
     var uxre = new UXRegExp('/a(b(c(d)))/');
     it('should match', () => {

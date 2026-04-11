@@ -1,7 +1,7 @@
 
 const UXRegExp = require('../uxregexp');
 
-describe('UXRegExp:', () => {
+describe('UXRegExp: flag-x', () => {
   describe('x-flag', () => {
     it('should ignore comments and whitespace', () => {
       var uxre = new UXRegExp('/\n\

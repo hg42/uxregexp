@@ -18,4 +18,12 @@ if ${build_file:-false}; then
 fi
 
 npm test
+
+js_print()
+  {
+  node -p "(function() { $(cat $1) })()"
+  }
+
 #js test.js
+#js test/test-uxregexp.js
+js example-runkit.js

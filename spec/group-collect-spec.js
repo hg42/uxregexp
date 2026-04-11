@@ -1,7 +1,7 @@
 
 const UXRegExp = require('../uxregexp');
 
-describe('UXRegExp:', () => {
+describe('UXRegExp: group collection', () => {
   describe('group collection', () => {
     it('should collect groups with same names', () => {
       var uxre = new UXRegExp('/a(?<group>b)(?<group>c)(?<group>d)e/');
